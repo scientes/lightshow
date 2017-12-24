@@ -15,4 +15,4 @@ all: $(OBJS)
 
 
 clear:
-	rm -f *.o main
+	rm -f *.o Show
