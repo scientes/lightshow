@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#define width 1600
-#define height 900
+#include <SDL2/SDL_ttf.h>
+#define width_glo 1600
+#define height_glo 900
 
-int Menu(SDL_Renderer* renderer,width,height){
+int Menu(SDL_Renderer* renderer,int width,int height){
     SDL_SetRenderDrawColor(renderer,153,153,102,50);
-    for (int i=0;i>height/2;i++){
-        SDL_RenderDrawLine(renderer,width/2-width/4,height/4+i,width/2+width/4,height/4+i)
+    for (int i=0;i<height/2;i++){
+        SDL_RenderDrawLine(renderer,width/2-width/4,height/4+i,width/2+width/4,height/4+i);
 
     }
+
+    return renderer;
 
 
 }
@@ -32,8 +35,8 @@ int main(int argc, char* args[])
     SDL_Window* window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
-				width,
-				height,
+				width_glo,
+				height_glo,
 				SDL_WINDOW_OPENGL || SDL_WINDOW_FULLSCREEN_DESKTOP
 				);
     if (window == NULL) {
@@ -51,8 +54,12 @@ int main(int argc, char* args[])
         // Clear the entire screen to our selected color.
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
-    While x{
-    Menu()
+    x=10;
+    while (x){
+    renderer=Menu(renderer,width_glo,height_glo);
+    SDL_RenderPresent(renderer);
+    x-=1;
+    SDL_Delay(300);
     }
 
     // The window is open: could enter program loop here (see SDL_PollEvent())
