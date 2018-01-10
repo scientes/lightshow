@@ -1,18 +1,9 @@
 CC=gcc
-DEBUG_OPTS=-g
-OPTIMIZATION_OPTS=-O3
-CC_DEFAULT_OPTS=-Wall -Wextra -std=c99 -pedantic $(DEBUG_OPTS) \
-	$(OPTIMIZATION_OPTS)
-LINKER_OPTS=-lSDL2 -lm
+CFLAGS=-I"C:\SDL2\include\SDL2\"
+LDFLAGS=-L"C:\SDL2\lib" -lmingw32 -lSDL2main -lSDL2 -lopengl32
 
-OBJS=main.o
+main.exe:
+	$(CC) $(CFLAGS) -o main.exe main.c $(LDFLAGS)
 
-.c.o:
-	$(CC) $(CC_DEFAULT_OPTS) -c $<
-
-all: $(OBJS)
-	$(CC) *.o -o main $(LINKER_OPTS)
-
-
-clear:
-	rm -f *.o main
+run: main.exe
+	main.exe
