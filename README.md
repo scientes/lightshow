@@ -30,14 +30,14 @@ In dem Hauptcode (lightshow.c) befindet sich die main. Hier alle Inputs (einschl
 
 # Variablen
 
-Zentrale Datentypen
+##Zentrale Datentypen
 -	Für den main Loop, muss es eine Abbruchvariable (Int) geben, welche das Programm jederzeit beenden kann. 
 -	Int Variable, die die Anfangszeit des Programms speichert
 -	Int Variable/ Array, welche die Effektauswahl/en speichert
 -	Int Fps Zahl 
 -	Variablen mit der Bildschirmgröße (width, height)
 
-# Lokale Datentypen
+## Lokale Datentypen
 -	Int Positionsvariablen (X, Y, x, y)
 -	
 
