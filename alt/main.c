@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "SDL.h"
+#include <SDL_main.h>
 #define width_glo 1600
 #define height_glo 900
 int Menu(SDL_Renderer* renderer,int width,int height){
