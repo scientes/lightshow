@@ -10,16 +10,13 @@ int main(int argc, char* args[])
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
-    SDL_Event event;
-
-
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         printf("SDL_Init failed!\n");
         }
     else{
         printf("SDL_Init was successful!\n");
     atexit(SDL_Quit);
-    SDL_Window* window = SDL_CreateWindow("lightshow",
+    window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
 				width_glo,
@@ -43,18 +40,25 @@ int main(int argc, char* args[])
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
-    x=width_glo;
+	x=1;
+	time_t t;
+	srand((unsigned) t);
     while (x){
     //renderer=Menu(renderer,width_glo,height_glo);
 
 
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		SDL_RenderClear(renderer);
+
+		SDL_SetRenderDrawColor(renderer,200,0,0,50);
+        renderer=effect_rand_points(renderer,x%10,50);
+        //SDL_RenderDrawPoint(renderer,250,250);
+        SDL_SetRenderDrawColor(renderer,0,50,0,0);
 		renderer = effect_wandernder_balken(renderer, x);
 		SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_RenderClear(renderer);
 
 
-		x--;
+		x++;
 		SDL_PumpEvents();
 		if (state[SDL_SCANCODE_RETURN]) {
 			printf("<RETURN> is pressed.\n");
@@ -67,7 +71,7 @@ int main(int argc, char* args[])
 		if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
 			printf("Right and Up Keys Pressed.\n");
 		}
-	SDL_Delay(16);
+	SDL_Delay(32);
     }
 
     // The window is open: could enter program loop here (see SDL_PollEvent())
