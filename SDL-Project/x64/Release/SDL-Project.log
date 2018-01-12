@@ -1,0 +1,9 @@
+﻿  main.c
+main.c(21): warning C4101: "window": Unreferenzierte lokale Variable
+     Bibliothek "C:\Users\user\source\repos\SDL-Project\x64\Release\SDL-Project.lib" und Objekt "C:\Users\user\source\repos\SDL-Project\x64\Release\SDL-Project.exp" werden erstellt.
+  Code wird generiert.
+  1 of 5 functions (20.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Codegenerierung ist abgeschlossen.
+  SDL-Project.vcxproj -> C:\Users\user\source\repos\SDL-Project\x64\Release\SDL-Project.exe
