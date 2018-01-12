@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #define width_glo 1600
 #define height_glo 900
 
 SDL_Renderer* wandernder_balken(SDL_Renderer* renderer, int input_signal) {
-	
+
 	SDL_SetRenderDrawColor(renderer, 150, 0, 0, 50);
 	for (int i = 0;i < 10;i++) {
 		SDL_RenderDrawLine(renderer, input_signal + i, 0, input_signal + i, height_glo);
@@ -66,7 +66,7 @@ int main(int argc, char* args[])
 		SDL_RenderClear(renderer);
 		renderer = wandernder_balken(renderer, x);
 		SDL_RenderPresent(renderer);
-		
+
 
 		x--;
 	SDL_Delay(16);
