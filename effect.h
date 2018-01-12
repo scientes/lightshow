@@ -40,7 +40,7 @@ SDL_Renderer* effect_rand_points(SDL_Renderer* renderer, int input_signal,int nu
     int width;
     int height;
 
-
+    srand(input_signal);
     for( i = 0 ; i < num_points ; i++ ) {
         width=rand() % width_glo;
         height=rand() % height_glo;

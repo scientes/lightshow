@@ -4,7 +4,20 @@
 #define width_glo 1600
 #define height_glo 900
 #include "effect.h"
+#include <time.h>
 
+int milissinceepoch(){
+    #include <sys/time.h>
+
+    struct timeval tv;
+
+    gettimeofday(&tv, NULL);
+
+    unsigned long long millisecondsSinceEpoch =
+    (unsigned long long)(tv.tv_sec) * 1000 +(unsigned long long)(tv.tv_usec) / 1000;
+    return millisecondsSinceEpoch;
+
+}
 
 int main(int argc, char* args[])
 {
@@ -41,8 +54,9 @@ int main(int argc, char* args[])
     SDL_RenderPresent(renderer);
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	x=1;
-	time_t t;
-	srand((unsigned) t);
+
+
+    printf("%llu\n", milissinceepoch());
     while (x){
     //renderer=Menu(renderer,width_glo,height_glo);
 
