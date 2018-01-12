@@ -3,23 +3,14 @@
 #include <SDL2/SDL.h>
 #define width_glo 1600
 #define height_glo 900
-
-SDL_Renderer* wandernder_balken(SDL_Renderer* renderer, int input_signal) {
-
-	SDL_SetRenderDrawColor(renderer, 150, 0, 0, 50);
-	for (int i = 0;i < 10;i++) {
-		SDL_RenderDrawLine(renderer, input_signal + i, 0, input_signal + i, height_glo);
-	}
-	return renderer;
-}
-
-
+#include "effect.h"
 
 
 int main(int argc, char* args[])
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_Event event;
 
 
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -27,6 +18,7 @@ int main(int argc, char* args[])
         }
     else{
         printf("SDL_Init was successful!\n");
+    atexit(SDL_Quit);
     SDL_Window* window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
@@ -54,21 +46,27 @@ int main(int argc, char* args[])
     x=width_glo;
     while (x){
     //renderer=Menu(renderer,width_glo,height_glo);
-		SDL_PumpEvents();
-		if (state[SDL_SCANCODE_RETURN]) {
-			printf("<RETURN> is pressed.\n");
-		}
-		if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
-			printf("Right and Up Keys Pressed.\n");
-		}
+
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
-		renderer = wandernder_balken(renderer, x);
+		renderer = effect_wandernder_balken(renderer, x);
 		SDL_RenderPresent(renderer);
 
 
 		x--;
+		SDL_PumpEvents();
+		if (state[SDL_SCANCODE_RETURN]) {
+			printf("<RETURN> is pressed.\n");
+
+		}
+		if (state[SDL_SCANCODE_ESCAPE]){
+            printf("ESC pressed.Aborting\n");
+            x=0;
+		}
+		if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
+			printf("Right and Up Keys Pressed.\n");
+		}
 	SDL_Delay(16);
     }
 

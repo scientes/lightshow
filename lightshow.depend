@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1515761611 source:/home/bastian/Desktop/github/lightshow2/main.c
+	<stdio.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+	"effect.h"
+
+1515760038 /home/bastian/Desktop/github/lightshow2/effect.h
+	<stdio.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+
