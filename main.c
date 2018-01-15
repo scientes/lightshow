@@ -54,6 +54,7 @@ int main(int argc, char* args[])
     SDL_RenderPresent(renderer);
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	x=1;
+	int t=0;
 
 
     printf("%llu\n", milissinceepoch());
@@ -62,30 +63,41 @@ int main(int argc, char* args[])
 
 
 
-		SDL_SetRenderDrawColor(renderer,200,0,0,50);
-        renderer=effect_rand_points(renderer,x%10,50);
+
+
         //SDL_RenderDrawPoint(renderer,250,250);
-        SDL_SetRenderDrawColor(renderer,0,50,0,0);
-		renderer = effect_wandernder_balken(renderer, x);
-		SDL_RenderPresent(renderer);
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		SDL_RenderClear(renderer);
+
+
 
 
 		x++;
 		SDL_PumpEvents();
-		if (state[SDL_SCANCODE_RETURN]) {
+		if (t<0){
+            t=width_glo;
+		}
+		if (state[SDL_SCANCODE_RIGHT]) {
 			printf("<RETURN> is pressed.\n");
-
+			t+=5;
+		}
+		if (state[SDL_SCANCODE_LEFT]) {
+			printf("<RETURN> is pressed.\n");
+			t-=5;
 		}
 		if (state[SDL_SCANCODE_ESCAPE]){
             printf("ESC pressed.Aborting\n");
             x=0;
 		}
-		if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
+		if (state[SDL_SCANCODE_RETURN]) {
 			printf("Right and Up Keys Pressed.\n");
-		}
-	SDL_Delay(32);
+			SDL_SetRenderDrawColor(renderer,200,0,0,50);
+			renderer=effect_rand_points(renderer,x%10,50);}
+        SDL_SetRenderDrawColor(renderer,0,50,0,0);
+        renderer = effect_wandernder_balken(renderer, t);
+        SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_RenderClear(renderer);
+
+	SDL_Delay(16);
     }
 
     // The window is open: could enter program loop here (see SDL_PollEvent())
