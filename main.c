@@ -81,11 +81,11 @@ int main(int argc, char* args[])
 		if (state[SDL_SCANCODE_RETURN]) {
 			//printf("Right and Up Keys Pressed.\n");
 			SDL_SetRenderDrawColor(renderer,200,0,0,50);
-			renderer=effect_rand_points(renderer,x%10,50);}
-
+			effect_rand_points(renderer,x%10,50);}
 
         SDL_SetRenderDrawColor(renderer,0,50,0,0);
-        renderer = effect_wandernder_balken(renderer, t);
+        //effect_circle(renderer,0,0,0);
+        effect_wandernder_balken(renderer, t);
         SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
