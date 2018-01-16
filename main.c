@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #define width_glo 1600
 #define height_glo 900
+#define FPS_CAP 140
 #include "effect.h"
 #include <time.h>
 
@@ -56,10 +57,13 @@ int main(int argc, char* args[])
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	x=1;
 	int t=0;
-
-
-    printf("%llu\n", milissinceepoch());
+	int frames=0;
+	int rendertime=0;
+	unsigned long long start;
+	unsigned long long stop;
+	unsigned long long time;
     while (x){
+        start=milissinceepoch();
 		x++;
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
@@ -67,15 +71,15 @@ int main(int argc, char* args[])
             t=width_glo;
 		}
 		if (state[SDL_SCANCODE_RIGHT]) {
-			printf("<RETURN> is pressed.\n");
-			t+=5;
+			//printf("<RETURN> is pressed.\n");
+			t+=2;
 		}
 		if (state[SDL_SCANCODE_LEFT]) {
-			printf("<RETURN> is pressed.\n");
-			t-=5;
+			//printf("<RETURN> is pressed.\n");
+			t-=2;
 		}
 		if (state[SDL_SCANCODE_RETURN]) {
-			printf("Right and Up Keys Pressed.\n");
+			//printf("Right and Up Keys Pressed.\n");
 			SDL_SetRenderDrawColor(renderer,200,0,0,50);
 			renderer=effect_rand_points(renderer,x%10,50);}
 
@@ -94,8 +98,17 @@ int main(int argc, char* args[])
             printf("ESC pressed.Aborting\n");
             x=0;
 		}
+		frames++;
 
-	SDL_Delay(16);
+		stop=milissinceepoch();
+		time=stop-start;
+		rendertime+=time;
+		if (frames%60){
+		printf("Avarage rendertime in ms: %d\n",rendertime/frames);
+		}
+    if (time<(1000/FPS_CAP)){
+        SDL_Delay((1000/FPS_CAP)-time);
+    }
     }
 
     // The window is open: could enter program loop here (see SDL_PollEvent())
