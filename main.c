@@ -23,6 +23,7 @@ int main(int argc, char* args[])
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_Event event;
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         printf("SDL_Init failed!\n");
         }
@@ -59,19 +60,9 @@ int main(int argc, char* args[])
 
     printf("%llu\n", milissinceepoch());
     while (x){
-    //renderer=Menu(renderer,width_glo,height_glo);
-
-
-
-
-
-        //SDL_RenderDrawPoint(renderer,250,250);
-
-
-
-
 		x++;
 		SDL_PumpEvents();
+		SDL_PollEvent(&event);
 		if (t<0){
             t=width_glo;
 		}
@@ -83,19 +74,26 @@ int main(int argc, char* args[])
 			printf("<RETURN> is pressed.\n");
 			t-=5;
 		}
-		if (state[SDL_SCANCODE_ESCAPE]){
-            printf("ESC pressed.Aborting\n");
-            x=0;
-		}
 		if (state[SDL_SCANCODE_RETURN]) {
 			printf("Right and Up Keys Pressed.\n");
 			SDL_SetRenderDrawColor(renderer,200,0,0,50);
 			renderer=effect_rand_points(renderer,x%10,50);}
+
+
         SDL_SetRenderDrawColor(renderer,0,50,0,0);
         renderer = effect_wandernder_balken(renderer, t);
         SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
+		if (x%10==0){
+            if(event.type==256){
+            printf("%d\n",event.type);
+            x=0;
+            }}
+		if (state[SDL_SCANCODE_ESCAPE]){
+            printf("ESC pressed.Aborting\n");
+            x=0;
+		}
 
 	SDL_Delay(16);
     }
