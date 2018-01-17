@@ -89,7 +89,8 @@ int main(int argc, char* args[])
         SDL_SetRenderDrawColor(renderer,0,0,100,200);
 
         //effect_func_test_dummy(renderer,u*0.01,0,0);
-        effect_func_quad(renderer,u*-0.01,100,200);
+        effect_func_quad(renderer,log(u*0.01),800,0);
+        //effect_func_sin(renderer,u*0.01,0.5,800,450);
 
 
         //SDL_RenderPresent(renderer);
@@ -114,7 +115,7 @@ int main(int argc, char* args[])
 		stop=milissinceepoch();
 		time=stop-start;
 		rendertime+=time;
-		if (frames%60){
+		if (frames%FPS_CAP){
             printf("Avarage rendertime in ms: %d\n",rendertime/frames);
 		}
     if (time<(1000/FPS_CAP)){
