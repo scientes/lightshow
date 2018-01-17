@@ -82,16 +82,18 @@ int main(int argc, char* args[])
 			//printf("Right and Up Keys Pressed.\n");
 			SDL_SetRenderDrawColor(renderer,200,0,0,50);
 			effect_rand_points(renderer,x%10,50);}
+        SDL_SetRenderDrawColor(renderer,0,0,100,50);
+        effect_func_test_dummy(renderer,x,0,0);
+        SDL_RenderPresent(renderer);
+        SDL_SetRenderDrawColor(renderer,0,50,0,50);
 
-        SDL_SetRenderDrawColor(renderer,0,50,0,0);
-        //effect_circle(renderer,0,0,0);
         effect_wandernder_balken(renderer, t);
         SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
 		if (x%10==0){
             if(event.type==256){
-            printf("%d\n",event.type);
+            printf("%Beendung durch X\n");
             x=0;
             }}
 		if (state[SDL_SCANCODE_ESCAPE]){
@@ -110,12 +112,6 @@ int main(int argc, char* args[])
         SDL_Delay((1000/FPS_CAP)-time);
     }
     }
-
-    // The window is open: could enter program loop here (see SDL_PollEvent())
-
-    //SDL_Delay(4000);  // Pause execution for 3000 milliseconds, for example
-
-    // Close and destroy the window
     SDL_DestroyWindow(window);
     }
     SDL_Quit();
