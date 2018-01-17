@@ -85,10 +85,7 @@ void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points)
 void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
-
-
     */
-
     char *screen;
     int X,Y;
     screen=calloc(height_glo*width_glo,sizeof(char));
@@ -98,7 +95,6 @@ void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){
     double of_y;
     toMath(X-o_x+width_glo/2, height_glo/2+o_y, &x, &of_y,-16,16,-9,9);          // Nur x interessiert
     toBMP(x,x*x*radius+of_y, &XX, &YY,-16,16,-9,9);
-    if (YY)
     screen[YY*width_glo+X]=1;
     screen[(YY+1)*width_glo+X]=1;
     screen[(YY+2)*width_glo+X]=1;
@@ -123,7 +119,6 @@ void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, in
     double of_y;
     toMath(X-o_x+width_glo/2, height_glo/2+o_y, &x, &of_y,-16,16,-9,9);          // Nur x interessiert
     toBMP(x,-amplitude*sin(x*streckung), &XX, &YY,-16,16,-9,9);
-    if (YY)
     screen[YY*width_glo+X]=1;
     screen[(YY+1)*width_glo+X]=1;
     screen[(YY+2)*width_glo+X]=1;

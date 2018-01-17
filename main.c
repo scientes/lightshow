@@ -30,7 +30,7 @@ int main(int argc, char* args[])
         }
     else{
         printf("SDL_Init was successful!\n");
-    atexit(SDL_Quit);
+    //atexit(SDL_Quit);
     window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
@@ -61,7 +61,6 @@ int main(int argc, char* args[])
 	unsigned long long stop;
 	unsigned long long time;
 	int u;
-	int a;
 	SDL_SetRenderDrawBlendMode(renderer,1);
     while (x){
         start=milissinceepoch();
