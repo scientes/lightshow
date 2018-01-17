@@ -52,6 +52,12 @@ void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) {
 void effect_dummy(SDL_Renderer* renderer, int input_signal) {
 
 }
+
+//Hier hat Caspar was gemacht (etwas ausprobieren)
+void effect_linieausprobieren(SDL_Renderer* renderer, int input_signal){
+    SDL_RenderDrawLine(renderer, 100, 100, 200,200);
+}
+
 void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
     for(int y=0;y<height_glo;y++){
         for(int x=0;x<width_glo;x++){

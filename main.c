@@ -84,8 +84,13 @@ int main(int argc, char* args[])
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
 			effect_rand_points(renderer,x%10,50);}
 
+		if (state[SDL_SCANCODE_4]){             //Caspar Hello world linie
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            effect_linieausprobieren(renderer, 1);
+		}
 
-        SDL_SetRenderDrawColor(renderer,0,0,100,200);
+
+        SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
         //effect_func_test_dummy(renderer,u*0.01,0,0);
         effect_func_quad(renderer,log(u*0.01),800,0);
@@ -95,8 +100,8 @@ int main(int argc, char* args[])
         //SDL_RenderPresent(renderer);
         SDL_SetRenderDrawColor(renderer,100,100,100,200);
         effect_coord(renderer);
-        SDL_SetRenderDrawColor(renderer,0,50,0,200);
 
+        SDL_SetRenderDrawColor(renderer,0,255,0,255);
         effect_wandernder_balken(renderer, t);
         SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
