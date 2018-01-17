@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #define width_glo 1600
 #define height_glo 900
-#define FPS_CAP 140
+#define FPS_CAP 60
 #include "effect.h"
 #include <time.h>
 
@@ -58,15 +58,18 @@ int main(int argc, char* args[])
 	x=1;
 	int t=0;
 	int frames=0;
-	int rendertime=0;
+	unsigned long long rendertime=0;
 	unsigned long long start;
 	unsigned long long stop;
 	unsigned long long time;
+	int u;
+	int a;
     while (x){
         start=milissinceepoch();
 		x++;
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
+		u+=1;
 		if (t<0){
             t=width_glo;
 		}
@@ -77,14 +80,22 @@ int main(int argc, char* args[])
 		if (state[SDL_SCANCODE_LEFT]) {
 			//printf("<RETURN> is pressed.\n");
 			t-=2;
-		}
+			}
 		if (state[SDL_SCANCODE_RETURN]) {
 			//printf("Right and Up Keys Pressed.\n");
 			SDL_SetRenderDrawColor(renderer,200,0,0,50);
 			effect_rand_points(renderer,x%10,50);}
+
+
         SDL_SetRenderDrawColor(renderer,0,0,100,50);
-        effect_func_test_dummy(renderer,x,0,0);
-        SDL_RenderPresent(renderer);
+
+        //effect_func_test_dummy(renderer,u*0.01,0,0);
+        effect_func_quad(renderer,u*-0.01,100,100);
+
+
+        //SDL_RenderPresent(renderer);
+        SDL_SetRenderDrawColor(renderer,100,100,100,0);
+        effect_coord(renderer);
         SDL_SetRenderDrawColor(renderer,0,50,0,50);
 
         effect_wandernder_balken(renderer, t);
@@ -101,12 +112,11 @@ int main(int argc, char* args[])
             x=0;
 		}
 		frames++;
-
 		stop=milissinceepoch();
 		time=stop-start;
 		rendertime+=time;
 		if (frames%60){
-		printf("Avarage rendertime in ms: %d\n",rendertime/frames);
+            printf("Avarage rendertime in ms: %d\n",rendertime/frames);
 		}
     if (time<(1000/FPS_CAP)){
         SDL_Delay((1000/FPS_CAP)-time);

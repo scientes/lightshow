@@ -52,16 +52,6 @@ void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) {
 void effect_dummy(SDL_Renderer* renderer, int input_signal) {
 
 }
-void effect_enlarge_array(SDL_Renderer* renderer, int* pixel_array_width,int* pixel_array_height) {
-    for (int i=0;i<(sizeof(pixel_array_height)/sizeof(int));i++){
-    SDL_RenderDrawPoint(renderer,pixel_array_width[i],pixel_array_height[i]);
-    SDL_RenderDrawPoint(renderer,pixel_array_width[i]+1,pixel_array_height[i]);
-    SDL_RenderDrawPoint(renderer,pixel_array_width[i],pixel_array_height[i]+1);
-    SDL_RenderDrawPoint(renderer,pixel_array_width[i]-1,pixel_array_height[i]);
-    SDL_RenderDrawPoint(renderer,pixel_array_width[i],pixel_array_height[i]-1);
-    }
-}
-
 void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
     for(int y=0;y<height_glo;y++){
         for(int x=0;x<width_glo;x++){
@@ -92,10 +82,40 @@ void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points)
         }
     }
 
-void effect_func_test_dummy(SDL_Renderer* renderer, float radius, int x, int y){
+void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){
+    /* Issues: Strich am oberen rand
+       Issues: Keine durchgehende Linie
+
+
+    */
     char *screen;
     int X,Y;
-    screen=malloc(height_glo*width_glo*sizeof(char));
+    screen=calloc(height_glo*width_glo,sizeof(char));
+    int XX, YY;
+    for (int X = 0; X < width_glo; X++) {
+    double x,y;
+    double of_y;
+    toMath(X-o_x+width_glo/2, height_glo/2+o_y, &x, &of_y,-16,16,-9,9);          // Nur x interessiert
+    toBMP(x,-x*x*radius+of_y, &XX, &YY,-16,16,-9,9);
+    if (YY)
+    screen[YY*width_glo+X]=1;
+    screen[(YY+1)*width_glo+X]=1;
+    screen[(YY+2)*width_glo+X]=1;
+    screen[(YY+3)*width_glo+X]=1;
+    screen[(YY+4)*width_glo+X]=1;
+    }
+    effect_array(renderer,screen);
+    free(screen);
+
+
+
+
+
+}
+void effect_coord(SDL_Renderer* renderer){
+    char *screen;
+    int X,Y;
+    screen=calloc(height_glo*width_glo,sizeof(char));
     int XX, YY;
 
     toBMP(0.0, 0.0, &XX, &YY,-16,16,-9,9);
@@ -105,19 +125,8 @@ void effect_func_test_dummy(SDL_Renderer* renderer, float radius, int x, int y){
     for (int Y = 0; Y < height_glo; Y++) {
         screen[Y * width_glo + XX] = 1;
         }
-    for (int X = 0; X < width_glo; X++) {
-    double x,y;
-
-    toMath(X, 0, &x, &y,-16,16,-9,9);          // Nur x interessiert
-    toBMP(x, x, &XX, &YY,-16,16,-9,9);
-    screen[YY*width_glo+X]=1;
-    }
     effect_array(renderer,screen);
     free(screen);
-
-
-
-
 
 }
 
