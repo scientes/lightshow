@@ -47,11 +47,9 @@ int main(int argc, char* args[])
     // We must call SDL_CreateRenderer in order for draw calls to affect this window.
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_PRESENTVSYNC );
 
-    // Select the color for drawing. It is set to red here.
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     int x;
 
-        // Clear the entire screen to our selected color.
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
@@ -64,6 +62,7 @@ int main(int argc, char* args[])
 	unsigned long long time;
 	int u;
 	int a;
+	SDL_SetRenderDrawBlendMode(renderer,1);
     while (x){
         start=milissinceepoch();
 		x++;
@@ -83,24 +82,24 @@ int main(int argc, char* args[])
 			}
 		if (state[SDL_SCANCODE_RETURN]) {
 			//printf("Right and Up Keys Pressed.\n");
-			SDL_SetRenderDrawColor(renderer,200,0,0,50);
+			SDL_SetRenderDrawColor(renderer,200,0,0,255);
 			effect_rand_points(renderer,x%10,50);}
 
 
-        SDL_SetRenderDrawColor(renderer,0,0,100,50);
+        SDL_SetRenderDrawColor(renderer,0,0,100,200);
 
         //effect_func_test_dummy(renderer,u*0.01,0,0);
-        effect_func_quad(renderer,u*-0.01,100,100);
+        effect_func_quad(renderer,u*-0.01,100,200);
 
 
         //SDL_RenderPresent(renderer);
-        SDL_SetRenderDrawColor(renderer,100,100,100,0);
+        SDL_SetRenderDrawColor(renderer,100,100,100,200);
         effect_coord(renderer);
-        SDL_SetRenderDrawColor(renderer,0,50,0,50);
+        SDL_SetRenderDrawColor(renderer,0,50,0,200);
 
         effect_wandernder_balken(renderer, t);
         SDL_RenderPresent(renderer);
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 		if (x%10==0){
             if(event.type==256){
