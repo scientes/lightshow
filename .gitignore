@@ -2,3 +2,4 @@
 *.sln
 *.vcxproj
 *.vcxproj.filters
+*.layout
