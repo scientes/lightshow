@@ -29,8 +29,23 @@ int main(int argc, char* args[])
         printf("SDL_Init failed!\n");
         }
     else{
-        printf("SDL_Init was successful!\n");
-    //atexit(SDL_Quit);
+
+    printf("SDL_Init was successful!\n");
+      // Declare display mode structure to be filled in.
+
+    SDL_DisplayMode current;
+
+    for(int i=0;i<SDL_GetNumVideoDisplays();i++){
+    int should_be_zero=SDL_GetCurrentDisplayMode(i,&current);
+    if(should_be_zero!=0){
+    printf("Could not get display mode for video display #%d: %s", i, SDL_GetError());
+
+    }
+    else{
+    printf("Display #%d: current display mode is %dx%dpx @ %dhz.", i, current.w, current.h, current.refresh_rate);
+    }
+    }
+/*
     window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
@@ -127,7 +142,7 @@ int main(int argc, char* args[])
         SDL_Delay((1000/FPS_CAP)-time);
     }
     }
-    SDL_DestroyWindow(window);
+    SDL_DestroyWindow(window);*/
     }
     SDL_Quit();
   return 0;
