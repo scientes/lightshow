@@ -6,16 +6,16 @@
 #define FPS_CAP 60
 #include "effect.h"
 #include <time.h>
+#include <sys/time.h>
 
-int milissinceepoch(){
-    #include <sys/time.h>
+unsigned long long milissinceepoch(){
+
 
     struct timeval tv;
 
     gettimeofday(&tv, NULL);
 
-    unsigned long long millisecondsSinceEpoch =
-    (unsigned long long)(tv.tv_sec) * 1000 +(unsigned long long)(tv.tv_usec) / 1000;
+    unsigned long long millisecondsSinceEpoch = (unsigned long long)(tv.tv_sec) * 1000 +(unsigned long long)(tv.tv_usec) / 1000;
     return millisecondsSinceEpoch;
 
 }
@@ -36,7 +36,7 @@ int main(int argc, char* args[])
 				SDL_WINDOWPOS_CENTERED,
 				width_glo,
 				height_glo,
-				SDL_WINDOW_OPENGL
+				SDL_WINDOW_OPENGL || SDL_WINDOW_FULLSCREEN_DESKTOP
 				);
 
     if (window == NULL) {
