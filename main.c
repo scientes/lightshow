@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#define width_glo 1600
-#define height_glo 900
+#define WIDTH_GLOBAL 1600
+#define HEIGHT_GLOBAL 900
 #define FPS_CAP 60
 #include "effect.h"
 #include <time.h>
@@ -34,8 +34,8 @@ int main(int argc, char* args[])
     window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
-				width_glo,
-				height_glo,
+				WIDTH_GLOBAL,
+				HEIGHT_GLOBAL,
 				SDL_WINDOW_OPENGL
 				);
 
@@ -69,7 +69,7 @@ int main(int argc, char* args[])
 		SDL_PollEvent(&event);
 		u+=1;
 		if (t<0){
-            t=width_glo;
+            t=WIDTH_GLOBAL;
 		}
 		if (state[SDL_SCANCODE_RIGHT]) {
 			//printf("<RETURN> is pressed.\n");
@@ -84,8 +84,13 @@ int main(int argc, char* args[])
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
 			effect_rand_points(renderer,x%10,50);}
 
+		if (state[SDL_SCANCODE_4]){             //Caspar Hello world linie
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            effect_linieausprobieren(renderer, 1);
+		}
 
-        SDL_SetRenderDrawColor(renderer,0,0,100,200);
+
+        SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
         //effect_func_test_dummy(renderer,u*0.01,0,0);
         effect_func_quad(renderer,log(u*0.01),800,0);
@@ -95,8 +100,8 @@ int main(int argc, char* args[])
         //SDL_RenderPresent(renderer);
         SDL_SetRenderDrawColor(renderer,100,100,100,200);
         effect_coord(renderer);
-        SDL_SetRenderDrawColor(renderer,0,50,0,200);
 
+        SDL_SetRenderDrawColor(renderer,0,255,0,255);
         effect_wandernder_balken(renderer, t);
         SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
