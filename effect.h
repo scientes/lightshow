@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <math.h>
-
+#define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
+int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
 /**
  * Gibt zu einem Paar mathematischer x- und y-Koordinaten
  * die BMP X- und Y-Koordinaten aus.
@@ -14,6 +15,10 @@
  * X - Berechneter BMP Wert zwischen 0 und WIDTH_GLOBAL.
  * Y - Berechneter BMP Wert zwischen 0 und HEIGHT_GLOBAL.
  */
+struct function_start_time{
+    char functionid;
+    unsigned long long starttime;
+};
 void toBMP(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
   if ((x < x_MIN) || (x > x_MAX) || (y < y_MIN) || (y > y_MAX)) {
     *X = 0;
@@ -68,7 +73,7 @@ void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
         }
 
 }
-void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points) {
+void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points) {// random Punkte
     int i;
     int width;
     int height;
@@ -88,7 +93,7 @@ void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points)
         }
     }
 
-void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){
+void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
     */
@@ -110,7 +115,7 @@ void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){
     effect_array(renderer,screen);
     free(screen);
 }
-void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, int o_x, int o_y){
+void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, int o_x, int o_y){// Sinusfunktion printen
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
 
@@ -134,7 +139,7 @@ void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, in
     effect_array(renderer,screen);
     free(screen);
 }
-void effect_coord(SDL_Renderer* renderer){
+void effect_coord(SDL_Renderer* renderer){//Koordinatensystem printen
     char *screen;
     int X,Y;
     screen=calloc(HEIGHT_GLOBAL*WIDTH_GLOBAL,sizeof(char));
