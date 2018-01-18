@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#define WIDTH_GLOBAL 1600
-#define HEIGHT_GLOBAL 900
-#define FPS_CAP 60
 #include "effect.h"
 #include <time.h>
 #include <sys/time.h>
@@ -44,15 +41,19 @@ int main(int argc, char* args[])
     else{
     printf("Display #%d: current display mode is %dx%dpx @ %dhz.", i, current.w, current.h, current.refresh_rate);
     }
+    WIDTH_GLOBAL=current.w;
+    HEIGHT_GLOBAL=current.h;
+    FPS_CAP=current.refresh_rate;
     }
-/*
+
+
     window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
 
 				WIDTH_GLOBAL,
 				HEIGHT_GLOBAL,
-				SDL_WINDOW_OPENGL
+				SDL_WINDOW_OPENGL || SDL_WINDOW_FULLSCREEN
 				);
 
     if (window == NULL) {
@@ -142,7 +143,7 @@ int main(int argc, char* args[])
         SDL_Delay((1000/FPS_CAP)-time);
     }
     }
-    SDL_DestroyWindow(window);*/
+    SDL_DestroyWindow(window);
     }
     SDL_Quit();
   return 0;

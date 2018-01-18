@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <math.h>
-
+int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
 /**
  * Gibt zu einem Paar mathematischer x- und y-Koordinaten
  * die BMP X- und Y-Koordinaten aus.
