@@ -73,7 +73,7 @@ void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
         }
 
 }
-void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points) {
+void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points) {// random Punkte
     int i;
     int width;
     int height;
@@ -93,7 +93,7 @@ void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points)
         }
     }
 
-void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){
+void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
     */
@@ -115,7 +115,7 @@ void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){
     effect_array(renderer,screen);
     free(screen);
 }
-void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, int o_x, int o_y){
+void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, int o_x, int o_y){// Sinusfunktion printen
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
 
@@ -139,7 +139,7 @@ void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, in
     effect_array(renderer,screen);
     free(screen);
 }
-void effect_coord(SDL_Renderer* renderer){
+void effect_coord(SDL_Renderer* renderer){//Koordinatensystem printen
     char *screen;
     int X,Y;
     screen=calloc(HEIGHT_GLOBAL*WIDTH_GLOBAL,sizeof(char));
