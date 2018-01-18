@@ -22,6 +22,7 @@ int main(int argc, char* args[])
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Event event;
+    struct function_start_time *starttimestruct;
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         printf("SDL_Init failed!\n");
         }
@@ -41,6 +42,7 @@ int main(int argc, char* args[])
     else{
     printf("Display #%d: current display mode is %dx%dpx @ %dhz.", i, current.w, current.h, current.refresh_rate);
     }
+    /*funktioniert zz nicht bei SDL_GetNumVideoDisplays()>1*/
     WIDTH_GLOBAL=current.w;
     HEIGHT_GLOBAL=current.h;
     FPS_CAP=current.refresh_rate;

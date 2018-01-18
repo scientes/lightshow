@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <math.h>
+#define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
 int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
 /**
  * Gibt zu einem Paar mathematischer x- und y-Koordinaten
@@ -14,6 +15,10 @@ int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
  * X - Berechneter BMP Wert zwischen 0 und WIDTH_GLOBAL.
  * Y - Berechneter BMP Wert zwischen 0 und HEIGHT_GLOBAL.
  */
+struct function_start_time{
+    char functionid;
+    unsigned long long starttime;
+};
 void toBMP(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
   if ((x < x_MIN) || (x > x_MAX) || (y < y_MIN) || (y > y_MAX)) {
     *X = 0;
