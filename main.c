@@ -92,19 +92,24 @@ int main(int argc, char* args[])
 		SDL_PollEvent(&event);
 		u+=1;
 		// Lese diese Events aus
-		if (t<0){
-            t=WIDTH_GLOBAL;
-		}
-		if (state[SDL_SCANCODE_RIGHT]) {
-			//printf("<RIGHT> is pressed.\n");
-			t+=2;
-		}
-		if (state[SDL_SCANCODE_LEFT]) {
-			//printf("<LEFT> is pressed.\n");
-			t-=2;
-			}
-		if (state[SDL_SCANCODE_RETURN]) {
-			//printf("<RETURN> Pressed.\n");
+        if(state[SDL_SCANCODE_B]){     //Wandernder Balken
+            if (t<0){
+                t=WIDTH_GLOBAL;
+            }
+            if (state[SDL_SCANCODE_RIGHT]) {
+                //printf("<RIGHT> is pressed.\n");
+                t+=2;
+            }
+            if (state[SDL_SCANCODE_LEFT]) {
+                //printf("<LEFT> is pressed.\n");
+                t-=2;
+                }
+            SDL_SetRenderDrawColor(renderer,0,255,0,255);
+            effect_wandernder_balken(renderer, t);
+
+        }
+		if (state[SDL_SCANCODE_R]) { //Zufällige Punkte
+			//printf("<R> Pressed.\n");
 			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
 			effect_rand_points(renderer,x%10,50);}
@@ -114,20 +119,21 @@ int main(int argc, char* args[])
             effect_linieausprobieren(renderer, 1);
 		}
 
-
-        SDL_SetRenderDrawColor(renderer,0,0,255,255);
-
-        //effect_func_test_dummy(renderer,u*0.01,0,0);
-        effect_func_quad(renderer,log(u*0.01),800,0);
-        //effect_func_sin(renderer,u*0.01,0.5,800,450);
+		if(state[SDL_SCANCODE_F]){
 
 
-        //SDL_RenderPresent(renderer);
-        SDL_SetRenderDrawColor(renderer,100,100,100,200);
-        effect_coord(renderer);
+            SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
-        SDL_SetRenderDrawColor(renderer,0,255,0,255);
-        effect_wandernder_balken(renderer, t);
+            //effect_func_test_dummy(renderer,u*0.01,0,0);
+            effect_func_quad(renderer,log(u*0.01),WIDTH_GLOBAL/2,0);
+            //effect_func_sin(renderer,u*0.01,0.5,800,450);
+            //SDL_RenderPresent(renderer);
+
+		}
+		SDL_SetRenderDrawColor(renderer,100,100,100,200);
+            effect_coord(renderer);
+
+
         SDL_RenderPresent(renderer); // Zeichne die Berechnungen auf den BIldschirm
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);// Male den Bildschirm Schwarz

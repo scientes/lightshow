@@ -13,7 +13,7 @@
 	<SDL2/SDL.h>
 	<math.h>
 
-1516205044 source:/Users/Caspar/Documents/GitHub/lightshow/main.c
+1516288333 source:/Users/Caspar/Documents/GitHub/lightshow/main.c
 	<stdio.h>
 	<stdlib.h>
 	<SDL2/SDL.h>
@@ -21,7 +21,7 @@
 	<time.h>
 	<sys/time.h>
 
-1516204672 /Users/Caspar/Documents/GitHub/lightshow/effect.h
+1516287480 /Users/Caspar/Documents/GitHub/lightshow/effect.h
 	<stdio.h>
 	<stdlib.h>
 	<SDL2/SDL.h>
