@@ -5,7 +5,7 @@
 #include <time.h>
 #include <sys/time.h>
 
-unsigned long long milissinceepoch(){
+unsigned long long milissinceepoch(){       //Funktion um die Milisekunden seit Epoch Ausszugeben. Format ist unsigned long long, um lanjährige Kompatibilität zu gewehrleisten
 
 
     struct timeval tv;
@@ -18,18 +18,19 @@ unsigned long long milissinceepoch(){
 }
 
 int main(int argc, char* args[])
-{
+{   // initialisiere alle SDL wichtigen Variablen
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Event event;
+    // struckt zur koordinierung der Funktionen
     struct function_start_time *starttimestruct;
+    // initialisier SDL
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         printf("SDL_Init failed!\n");
         }
     else{
-
+    // Wenn erfolgreich initialisiert bestimme Auflösung und Bildwiederholfrequenz des Monitors
     printf("SDL_Init was successful!\n");
-      // Declare display mode structure to be filled in.
 
     SDL_DisplayMode current;
 
@@ -48,7 +49,7 @@ int main(int argc, char* args[])
     FPS_CAP=current.refresh_rate;
     }
 
-
+    // erschaffe Ein Fullscreen Fenster
     window = SDL_CreateWindow("lightshow",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
@@ -59,20 +60,21 @@ int main(int argc, char* args[])
 				);
 
     if (window == NULL) {
-        // In the case that the window could not be made...
+        // Falls dies scheitert
         printf("Could not create window: %s\n", SDL_GetError());
         return 1;
     }
-    // We must call SDL_CreateRenderer in order for draw calls to affect this window.
+    // erstellen des Renderes für das Window
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_PRESENTVSYNC );
-
+    // Male den Bildschirm schwarz
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    int x;
 
+    // übertrage dies Auf den Bildschirm
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
+    // Erstelle Alle nötigen Variablen für die Hauptschleife
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
-	x=1;
+	int x=1;
 	int t=0;
 	int frames=0;
 	unsigned long long rendertime=0;
@@ -82,24 +84,28 @@ int main(int argc, char* args[])
 	int u;
 	SDL_SetRenderDrawBlendMode(renderer,1);
     while (x){
+        // NEhme die Startzeit des Jetzigen Frames
         start=milissinceepoch();
 		x++;
+		// Update die Tastatur und Fenster inputevents
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
 		u+=1;
+		// Lese diese Events aus
 		if (t<0){
             t=WIDTH_GLOBAL;
 		}
 		if (state[SDL_SCANCODE_RIGHT]) {
-			//printf("<RETURN> is pressed.\n");
+			//printf("<RIGHT> is pressed.\n");
 			t+=2;
 		}
 		if (state[SDL_SCANCODE_LEFT]) {
-			//printf("<RETURN> is pressed.\n");
+			//printf("<LEFT> is pressed.\n");
 			t-=2;
 			}
 		if (state[SDL_SCANCODE_RETURN]) {
-			//printf("Right and Up Keys Pressed.\n");
+			//printf("<RETURN> Pressed.\n");
+			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
 			effect_rand_points(renderer,x%10,50);}
 
@@ -122,11 +128,11 @@ int main(int argc, char* args[])
 
         SDL_SetRenderDrawColor(renderer,0,255,0,255);
         effect_wandernder_balken(renderer, t);
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(renderer); // Zeichne die Berechnungen auf den BIldschirm
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderClear(renderer);
-		if (x%10==0){
-            if(event.type==256){
+		SDL_RenderClear(renderer);// Male den Bildschirm Schwarz
+		if (x%10==0){ // Abbruchbedingungen
+            if(event.type==256){// 256=Exitkreuz
             printf("%Beendung durch X\n");
             x=0;
             }}
@@ -137,15 +143,15 @@ int main(int argc, char* args[])
 		frames++;
 		stop=milissinceepoch();
 		time=stop-start;
-		rendertime+=time;
+		rendertime+=time;// brechene die Zeit die Für den Frame gebraucht wurde
 		if (frames%FPS_CAP){
-            printf("Avarage rendertime in ms: %d\n",rendertime/frames);
+            printf("Avarage rendertime in ms: %d\n",rendertime/frames);// printe den Durchschnitt
 		}
     if (time<(1000/FPS_CAP)){
-        SDL_Delay((1000/FPS_CAP)-time);
+        SDL_Delay((1000/FPS_CAP)-time);// Minimiere den Delay um die Renderzeit
     }
     }
-    SDL_DestroyWindow(window);
+    SDL_DestroyWindow(window);// Räume auf
     }
     SDL_Quit();
   return 0;
