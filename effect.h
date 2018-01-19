@@ -18,7 +18,7 @@ int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
 struct function_start_time{
     char functionid;
     unsigned long long starttime;
-};
+}function_start_time;
 void toBMP(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
   if ((x < x_MIN) || (x > x_MAX) || (y < y_MIN) || (y > y_MAX)) {
     *X = 0;
@@ -138,7 +138,7 @@ void effect_func_quad_alt(SDL_Renderer* renderer, float radius, float angle, int
 
     for(int i=0;i<WIDTH_GLOBAL;i++){
         toMath(i,0,&x,&y,-16,16,-9,9);
-        toBMP_alt(x,sin(x),&XX,&YY,-16,16,-9,9);
+        toBMP_alt(x,sin(x)*radius,&XX,&YY,-16,16,-9,9);
         struct SDL_Point new_point=vektorwinder(XX,YY,angle,o_x,o_y);
         XX=new_point.x;
         YY=new_point.y;

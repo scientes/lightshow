@@ -84,6 +84,8 @@ int main(int argc, char* args[])
 	unsigned long long time;
 	int h=1,u=0;
 	SDL_SetRenderDrawBlendMode(renderer,1);
+	struct function_start_time *fstart;
+	fstart=calloc(50,sizeof(function_start_time));
     while (x){
         // NEhme die Startzeit des Jetzigen Frames
         start=milissinceepoch();
@@ -125,18 +127,25 @@ int main(int argc, char* args[])
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
             //effect_func_test_dummy(renderer,u*0.01,0,0);
-            if(u==200){
+            if(u==100){
             h=-1;
             }
-            if(u==-200){
+            if(u==-100){
             h=1;
             }
-            effect_func_quad_alt(renderer,-u*0.01,-1.57082144/2,800,450);
-            /*effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
-            effect_func_kreis_unten(renderer,-exp(u*0.01),800,450);
-            effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
-            effect_func_kreis_unten(renderer,-u*0.01-0.02,800,450);
-            u+=h;*/
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/2,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/2,800,450);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4,800,450);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4*3,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4*3,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144,800,450);
+            effect_func_quad_alt(renderer,u*0.02,0,800,450);
+            effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
+            effect_func_kreis_unten(renderer,-exp(u*0.01),160,450);
+            //effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
+            //effect_func_kreis_unten(renderer,-u*0.01-0.02,800,450);
+            u+=h;
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
 
