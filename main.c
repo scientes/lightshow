@@ -135,12 +135,16 @@ int main(int argc, char* args[])
             }
             effect_func_quad_alt(renderer,u*0.02,-1.57082144/2,800,450);
             effect_func_quad_alt(renderer,u*0.02,1.57082144/2,800,450);
+            SDL_SetRenderDrawColor(renderer,0,255,0,255);
             effect_func_quad_alt(renderer,u*0.02,-1.57082144/4,800,450);
             effect_func_quad_alt(renderer,u*0.02,1.57082144/4,800,450);
+            SDL_SetRenderDrawColor(renderer,255,0,0,255);
             effect_func_quad_alt(renderer,u*0.02,-1.57082144/4*3,800,450);
             effect_func_quad_alt(renderer,u*0.02,1.57082144/4*3,800,450);
+            SDL_SetRenderDrawColor(renderer,255,0,255,255);
             effect_func_quad_alt(renderer,u*0.02,1.57082144,800,450);
             effect_func_quad_alt(renderer,u*0.02,0,800,450);
+            SDL_SetRenderDrawColor(renderer,0,255,255,255);
             effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
             effect_func_kreis_unten(renderer,-exp(u*0.01),160,450);
             //effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
