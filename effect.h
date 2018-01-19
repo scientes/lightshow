@@ -130,7 +130,7 @@ void effect_func_quad_alt(SDL_Renderer* renderer, float radius, int o_x, int o_y
 
     for(int i=0;i<WIDTH_GLOBAL;i++){
         toMath(i,0,&x,&y,-16,16,-9,9);
-        toBMP_alt(x,sin(x) ,&XX,&YY,-16,16,-9,9);
+        toBMP_alt(x,sin(x)*radius ,&XX,&YY,-16,16,-9,9);
         screen[i].x=XX;
         screen[i].y=YY;
     }

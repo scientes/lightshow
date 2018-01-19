@@ -81,7 +81,7 @@ int main(int argc, char* args[])
 	unsigned long long start;
 	unsigned long long stop;
 	unsigned long long time;
-	int u;
+	int h=1,u=0;
 	SDL_SetRenderDrawBlendMode(renderer,1);
     while (x){
         // NEhme die Startzeit des Jetzigen Frames
@@ -90,7 +90,6 @@ int main(int argc, char* args[])
 		// Update die Tastatur und Fenster inputevents
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
-		u+=1;
 		// Lese diese Events aus
         if(state[SDL_SCANCODE_B]){     //Wandernder Balken
             if (t<0){
@@ -119,17 +118,24 @@ int main(int argc, char* args[])
             effect_linieausprobieren(renderer, 1);
 		}
 
-		//if(state[SDL_SCANCODE_F]){
+		if(state[SDL_SCANCODE_F]){
 
 
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
             //effect_func_test_dummy(renderer,u*0.01,0,0);
-            effect_func_quad_alt(renderer,log(u*0.01),800,450);
+            if(u==200){
+            h=-1;
+            }
+            if(u==-200){
+            h=1;
+            }
+            effect_func_quad_alt(renderer,-u*0.01,800,450);
+            u+=h;
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
 
-		//}
+		}
 		SDL_SetRenderDrawColor(renderer,100,100,100,200);
             effect_coord(renderer);
 
