@@ -50,9 +50,9 @@ void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, i
   *y = y_MIN + ((double) (HEIGHT_GLOBAL - Y) * (y_MAX - y_MIN)) / HEIGHT_GLOBAL;
 }
 
-void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) {
+void effect_wandernder_balken(SDL_Renderer* renderer, int position) {
 	for (int i = 0;i < 10;i++) {
-		SDL_RenderDrawLine(renderer, input_signal + i, 0, input_signal + i, HEIGHT_GLOBAL);
+		SDL_RenderDrawLine(renderer, position + i, 0, position + i, HEIGHT_GLOBAL);
 	}
 }
 void effect_dummy(SDL_Renderer* renderer, int input_signal) {

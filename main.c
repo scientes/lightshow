@@ -75,9 +75,10 @@ int main(int argc, char* args[])
     // Erstelle Alle nötigen Variablen für die Hauptschleife
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	int x=1;
-	int t=0;
+	int position = 0; //für wanderbalken
 	int speed = 500; //für Strobo effekt
-	int frames=0;
+	int frames = 0;
+	int Color[3]; //speichert Farben
 	unsigned long long rendertime=0;
 	unsigned long long start;
 	unsigned long long stop;
@@ -94,19 +95,19 @@ int main(int argc, char* args[])
 		u+=1;
 		// Lese diese Events aus
         if(state[SDL_SCANCODE_B]){     //Wandernder Balken
-            if (t<0){
-                t=WIDTH_GLOBAL;
+            if (position < 0){
+                position = WIDTH_GLOBAL;
             }
             if (state[SDL_SCANCODE_RIGHT]) {
                 //printf("<RIGHT> is pressed.\n");
-                t+=2;
+                position+=4;
             }
             if (state[SDL_SCANCODE_LEFT]) {
                 //printf("<LEFT> is pressed.\n");
-                t-=2;
+                position-=4;
                 }
             SDL_SetRenderDrawColor(renderer,0,255,0,255);
-            effect_wandernder_balken(renderer, t);
+            effect_wandernder_balken(renderer, position);
 
         }
 		if (state[SDL_SCANCODE_R]) { //Zufällige Punkte
@@ -137,7 +138,6 @@ int main(int argc, char* args[])
                 speed -= 50;
             if(state[SDL_SCANCODE_DOWN])
                 speed += 50;
-
             effect_Strobo(renderer, speed);
 
 
