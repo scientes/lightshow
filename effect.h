@@ -28,6 +28,10 @@ void toBMP(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, in
   *X = (int) ((x - x_MIN) * WIDTH_GLOBAL / (x_MAX - x_MIN));
   *Y = HEIGHT_GLOBAL - (int) ((y - y_MIN) * HEIGHT_GLOBAL / (y_MAX - y_MIN));
 }
+void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
+  *X = (int) ((x - x_MIN) * WIDTH_GLOBAL / (x_MAX - x_MIN));
+  *Y = HEIGHT_GLOBAL - (int) ((y - y_MIN) * HEIGHT_GLOBAL / (y_MAX - y_MIN));
+}
 
 
 /**
@@ -48,6 +52,7 @@ void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, i
   *x = x_MIN + ((double) X * (x_MAX - x_MIN)) / WIDTH_GLOBAL;
   *y = y_MIN + ((double) (HEIGHT_GLOBAL - Y) * (y_MAX - y_MIN)) / HEIGHT_GLOBAL;
 }
+
 
 void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) {
 	for (int i = 0;i < 10;i++) {
@@ -113,6 +118,27 @@ void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){//
     screen[(YY+4)*WIDTH_GLOBAL+X]=1;
     }
     effect_array(renderer,screen);
+    free(screen);
+}
+void effect_func_quad_alt(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
+    /* Issues: Strich am oberen rand
+       Issues: Keine durchgehende Linie
+    */
+    SDL_Point* screen=calloc(WIDTH_GLOBAL,sizeof(SDL_Point));
+    double x,y;
+    int YY,XX;
+
+    for(int i=0;i<WIDTH_GLOBAL;i++){
+        toMath(i,0,&x,&y,-16,16,-9,9);
+        toBMP_alt(x,sin(x) ,&XX,&YY,-16,16,-9,9);
+        screen[i].x=XX;
+        screen[i].y=YY;
+    }
+    for(int j=1;j<WIDTH_GLOBAL;j++){
+        SDL_RenderDrawLine(renderer,screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
+        //printf("From(%d,%d) to(%d,%d)\n",screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
+    }
+
     free(screen);
 }
 void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, int o_x, int o_y){// Sinusfunktion printen

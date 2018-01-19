@@ -56,7 +56,7 @@ int main(int argc, char* args[])
 
 				WIDTH_GLOBAL,
 				HEIGHT_GLOBAL,
-				SDL_WINDOW_OPENGL || SDL_WINDOW_FULLSCREEN
+				SDL_WINDOW_OPENGL
 				);
 
     if (window == NULL) {
@@ -119,17 +119,17 @@ int main(int argc, char* args[])
             effect_linieausprobieren(renderer, 1);
 		}
 
-		if(state[SDL_SCANCODE_F]){
+		//if(state[SDL_SCANCODE_F]){
 
 
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
             //effect_func_test_dummy(renderer,u*0.01,0,0);
-            effect_func_quad(renderer,log(u*0.01),WIDTH_GLOBAL/2,0);
+            effect_func_quad_alt(renderer,log(u*0.01),800,450);
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
 
-		}
+		//}
 		SDL_SetRenderDrawColor(renderer,100,100,100,200);
             effect_coord(renderer);
 
@@ -153,6 +153,7 @@ int main(int argc, char* args[])
 		if (frames%FPS_CAP){
             printf("Avarage rendertime in ms: %d\n",rendertime/frames);// printe den Durchschnitt
 		}
+
     if (time<(1000/FPS_CAP)){
         SDL_Delay((1000/FPS_CAP)-time);// Minimiere den Delay um die Renderzeit
     }
