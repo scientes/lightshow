@@ -76,6 +76,7 @@ int main(int argc, char* args[])
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	int x=1;
 	int t=0;
+	int speed = 500; //für Strobo effekt
 	int frames=0;
 	unsigned long long rendertime=0;
 	unsigned long long start;
@@ -119,7 +120,7 @@ int main(int argc, char* args[])
             effect_linieausprobieren(renderer, 1);
 		}
 
-		if(state[SDL_SCANCODE_F]){
+		if(state[SDL_SCANCODE_F]){ //funktion wird ausgegeben
 
 
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
@@ -130,8 +131,22 @@ int main(int argc, char* args[])
             //SDL_RenderPresent(renderer);
 
 		}
-		SDL_SetRenderDrawColor(renderer,100,100,100,200);
-            effect_coord(renderer);
+		if(state[SDL_SCANCODE_S]){
+            printf("Strobo aktiviert");
+            if(state[SDL_SCANCODE_UP])
+                speed -= 50;
+            if(state[SDL_SCANCODE_DOWN])
+                speed += 50;
+
+            effect_Strobo(renderer, speed);
+
+
+		}
+
+
+
+		//SDL_SetRenderDrawColor(renderer,100,100,100,200);
+        //    effect_coord(renderer);
 
 
         SDL_RenderPresent(renderer); // Zeichne die Berechnungen auf den BIldschirm

@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <math.h>
 #define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
+
 int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
 /**
  * Gibt zu einem Paar mathematischer x- und y-Koordinaten
@@ -61,6 +62,17 @@ void effect_dummy(SDL_Renderer* renderer, int input_signal) {
 //Hier hat Caspar was gemacht (etwas ausprobieren)
 void effect_linieausprobieren(SDL_Renderer* renderer, int input_signal){
     SDL_RenderDrawLine(renderer, 100, 100, 200,200);
+}
+
+void effect_Strobo(SDL_Renderer* renderer, speed){
+    SDL_SetRenderDrawColor(renderer,255,255,255,255);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(speed);
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(speed);
 }
 
 void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
