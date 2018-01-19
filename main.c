@@ -22,6 +22,7 @@ int main(int argc, char* args[])
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Event event;
+
     // struckt zur koordinierung der Funktionen
     struct function_start_time *starttimestruct;
     // initialisier SDL
@@ -130,8 +131,12 @@ int main(int argc, char* args[])
             if(u==-200){
             h=1;
             }
-            //effect_func_quad_alt(renderer,-u*0.01,800,450);
-            u+=h;
+            effect_func_quad_alt(renderer,-u*0.01,-1.57082144/2,800,450);
+            /*effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
+            effect_func_kreis_unten(renderer,-exp(u*0.01),800,450);
+            effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
+            effect_func_kreis_unten(renderer,-u*0.01-0.02,800,450);
+            u+=h;*/
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
 

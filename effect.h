@@ -53,7 +53,15 @@ void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, i
   *y = y_MIN + ((double) (HEIGHT_GLOBAL - Y) * (y_MAX - y_MIN)) / HEIGHT_GLOBAL;
 }
 
-
+struct SDL_Point vektorwinder(int x_alt,int y_alt, float angle,int x, int y ){
+    struct SDL_Point new_point;
+    new_point.x=x+cos(angle)*(x_alt-x)-sin(angle)*(y_alt-y);
+    new_point.y=y+sin(angle)*(x_alt-x)+cos(angle)*(y_alt-y);
+    return new_point;
+}
+double length_points(int x1,int y1, int x2, int y2){
+ return sqrt(pow(x2-x1,2)+pow(y2-y1,2));
+}
 void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) {
 	for (int i = 0;i < 10;i++) {
 		SDL_RenderDrawLine(renderer, input_signal + i, 0, input_signal + i, HEIGHT_GLOBAL);
@@ -120,7 +128,7 @@ void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){//
     effect_array(renderer,screen);
     free(screen);
 }
-void effect_func_quad_alt(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
+void effect_func_quad_alt(SDL_Renderer* renderer, float radius, float angle, int o_x, int o_y){// quadratische Funktion
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
     */
@@ -130,7 +138,10 @@ void effect_func_quad_alt(SDL_Renderer* renderer, float radius, int o_x, int o_y
 
     for(int i=0;i<WIDTH_GLOBAL;i++){
         toMath(i,0,&x,&y,-16,16,-9,9);
-        toBMP_alt(x,sin(x*radius/(radius-0.5)),&XX,&YY,-16,16,-9,9);
+        toBMP_alt(x,sin(x),&XX,&YY,-16,16,-9,9);
+        struct SDL_Point new_point=vektorwinder(XX,YY,angle,o_x,o_y);
+        XX=new_point.x;
+        YY=new_point.y;
         screen[i].x=XX;
         screen[i].y=YY;
     }
