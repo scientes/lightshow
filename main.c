@@ -131,7 +131,7 @@ int main(int argc, char* args[])
             if(u==-200){
             h=1;
             }
-            effect_func_quad_alt(renderer,-u*0.01,-1.57082144/2,800,450);
+            effect_func_quad_alt(renderer,-u*0.01,3.1415/2,800,450);
             /*effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
             effect_func_kreis_unten(renderer,-exp(u*0.01),800,450);
             effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
