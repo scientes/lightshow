@@ -44,11 +44,11 @@ void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN
  * y - Berechnete mathematische Koordinate zwischen y_MIN und y_MAX.
  */
 void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
-  if ((X < 0) || (X > WIDTH_GLOBAL) || (Y < 0) || (Y > HEIGHT_GLOBAL)) {
+  /*if ((X < 0) || (X > WIDTH_GLOBAL) || (Y < 0) || (Y > HEIGHT_GLOBAL)) {
     *x = x_MIN;
     *y = y_MIN;
     return;
-  }
+  }*/
   *x = x_MIN + ((double) X * (x_MAX - x_MIN)) / WIDTH_GLOBAL;
   *y = y_MIN + ((double) (HEIGHT_GLOBAL - Y) * (y_MAX - y_MIN)) / HEIGHT_GLOBAL;
 }
@@ -130,13 +130,71 @@ void effect_func_quad_alt(SDL_Renderer* renderer, float radius, int o_x, int o_y
 
     for(int i=0;i<WIDTH_GLOBAL;i++){
         toMath(i,0,&x,&y,-16,16,-9,9);
-        toBMP_alt(x,sin(x)*radius ,&XX,&YY,-16,16,-9,9);
+        toBMP_alt(x,sin(x*radius/(radius-0.5)),&XX,&YY,-16,16,-9,9);
         screen[i].x=XX;
         screen[i].y=YY;
     }
     for(int j=1;j<WIDTH_GLOBAL;j++){
         SDL_RenderDrawLine(renderer,screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
         //printf("From(%d,%d) to(%d,%d)\n",screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
+    }
+
+    free(screen);
+}
+void effect_func_kreis_unten(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
+    /* Issues: Strich am oberen rand
+       Issues: Keine durchgehende Linie
+    */
+    SDL_Point* screen=calloc(WIDTH_GLOBAL,sizeof(SDL_Point));
+    double x,y;
+    int YY,XX;
+    for(int i=0;i<WIDTH_GLOBAL;i++){
+        toMath(i,0,&x,&y,-16,16,-9,9);
+        float ergebnis=-sqrt((-(x*x)+radius*radius));
+        if (ergebnis==ergebnis){
+        toBMP_alt(x,ergebnis,&XX,&YY,-16,16,-9,9);
+        screen[i].x=XX;
+        screen[i].y=YY;}
+        else{
+        screen[i].x=0;
+        screen[i].y=0;
+        }
+    }
+
+    for(int j=1;j<WIDTH_GLOBAL;j++){
+        if((screen[j].x!=0)&&(screen[j].y!=0)&&(screen[j-1].x!=0)&&(screen[j-1].y!=0)){
+        SDL_RenderDrawLine(renderer,screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
+        //printf("From(%d,%d) to(%d,%d)\n",screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
+        }
+    }
+
+    free(screen);
+}
+void effect_func_kreis_oben(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
+    /* Issues: Strich am oberen rand
+       Issues: Keine durchgehende Linie
+    */
+    SDL_Point* screen=calloc(WIDTH_GLOBAL,sizeof(SDL_Point));
+    double x,y;
+    int YY,XX;
+    for(int i=0;i<WIDTH_GLOBAL;i++){
+        toMath(i,0,&x,&y,-16,16,-9,9);
+        float ergebnis=sqrt((-(x*x)+radius*radius));
+        if (ergebnis==ergebnis){
+        toBMP_alt(x,ergebnis,&XX,&YY,-16,16,-9,9);
+        screen[i].x=XX;
+        screen[i].y=YY;}
+        else{
+        screen[i].x=0;
+        screen[i].y=0;
+        }
+    }
+
+    for(int j=1;j<WIDTH_GLOBAL;j++){
+        if((screen[j].x!=0)&&(screen[j].y!=0)&&(screen[j-1].x!=0)&&(screen[j-1].y!=0)){
+        SDL_RenderDrawLine(renderer,screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
+        //printf("From(%d,%d) to(%d,%d)\n",screen[j-1].x,screen[j-1].y,screen[j].x,screen[j].y);
+        }
     }
 
     free(screen);
