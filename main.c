@@ -22,6 +22,7 @@ int main(int argc, char* args[])
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Event event;
+
     // struckt zur koordinierung der Funktionen
     struct function_start_time *starttimestruct;
     // initialisier SDL
@@ -56,7 +57,7 @@ int main(int argc, char* args[])
 
 				WIDTH_GLOBAL,
 				HEIGHT_GLOBAL,
-				SDL_WINDOW_OPENGL || SDL_WINDOW_FULLSCREEN
+				SDL_WINDOW_OPENGL
 				);
 
     if (window == NULL) {
@@ -81,8 +82,10 @@ int main(int argc, char* args[])
 	unsigned long long start;
 	unsigned long long stop;
 	unsigned long long time;
-	int u;
+	int h=1,u=0;
 	SDL_SetRenderDrawBlendMode(renderer,1);
+	struct function_start_time *fstart;
+	fstart=calloc(50,sizeof(function_start_time));
     while (x){
         // NEhme die Startzeit des Jetzigen Frames
         start=milissinceepoch();
@@ -90,7 +93,6 @@ int main(int argc, char* args[])
 		// Update die Tastatur und Fenster inputevents
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
-		u+=1;
 		// Lese diese Events aus
         if(state[SDL_SCANCODE_B]){     //Wandernder Balken
             if (t<0){
@@ -125,7 +127,29 @@ int main(int argc, char* args[])
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
             //effect_func_test_dummy(renderer,u*0.01,0,0);
-            effect_func_quad(renderer,log(u*0.01),WIDTH_GLOBAL/2,0);
+            if(u==100){
+            h=-1;
+            }
+            if(u==-100){
+            h=1;
+            }
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/2,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/2,800,450);
+            SDL_SetRenderDrawColor(renderer,0,255,0,255);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4,800,450);
+            SDL_SetRenderDrawColor(renderer,255,0,0,255);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4*3,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4*3,800,450);
+            SDL_SetRenderDrawColor(renderer,255,0,255,255);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144,800,450);
+            effect_func_quad_alt(renderer,u*0.02,0,800,450);
+            SDL_SetRenderDrawColor(renderer,0,255,255,255);
+            effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
+            effect_func_kreis_unten(renderer,-exp(u*0.01),160,450);
+            //effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
+            //effect_func_kreis_unten(renderer,-u*0.01-0.02,800,450);
+            u+=h;
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
 
@@ -150,9 +174,10 @@ int main(int argc, char* args[])
 		stop=milissinceepoch();
 		time=stop-start;
 		rendertime+=time;// brechene die Zeit die Für den Frame gebraucht wurde
-		if (frames%FPS_CAP){
+		/*if (frames%FPS_CAP){
             printf("Avarage rendertime in ms: %d\n",rendertime/frames);// printe den Durchschnitt
-		}
+		}*/
+
     if (time<(1000/FPS_CAP)){
         SDL_Delay((1000/FPS_CAP)-time);// Minimiere den Delay um die Renderzeit
     }
