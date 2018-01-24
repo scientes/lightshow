@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <math.h>
 #define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
+
 int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
 /**
  * Gibt zu einem Paar mathematischer x- und y-Koordinaten
@@ -40,6 +41,7 @@ void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, i
   *y = y_MIN + ((double) (HEIGHT_GLOBAL - Y) * (y_MAX - y_MIN)) / HEIGHT_GLOBAL;
 }
 
+
 struct SDL_Point vektorwinder(int x_alt,int y_alt, float angle,int x, int y ){
     struct SDL_Point new_point;
     new_point.x=x+cos(angle)*(x_alt-x)-sin(angle)*(y_alt-y);
@@ -49,13 +51,23 @@ struct SDL_Point vektorwinder(int x_alt,int y_alt, float angle,int x, int y ){
 double length_points(int x1,int y1, int x2, int y2){
  return sqrt(pow(x2-x1,2)+pow(y2-y1,2));
 }
-
-void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) { //cooler machen
+void effect_wandernder_balken(SDL_Renderer* renderer, int position) {
 	for (int i = 0;i < 10;i++) {
-		SDL_RenderDrawLine(renderer, input_signal + i, 0, input_signal + i, HEIGHT_GLOBAL);
+		SDL_RenderDrawLine(renderer, position + i, 0, position + i, HEIGHT_GLOBAL);
 	}
 }
 
+
+void effect_Strobo(SDL_Renderer* renderer, speed){
+    SDL_SetRenderDrawColor(renderer,255,255,255,255);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(speed);
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(speed);
+}
 
 void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
     for(int y=0;y<HEIGHT_GLOBAL;y++){

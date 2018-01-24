@@ -97,6 +97,10 @@ int main(int argc, char* args[])
     // Erstelle Alle nötigen Variablen für die Hauptschleife
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	int x=1;
+	int position = 0; //für wanderbalken
+	int speed = 500; //für Strobo effekt
+	int frames = 0;
+	int Color[3]; //speichert Farben
 	int t = 1;
 	int frames=0;
 	unsigned long long rendertime=0;
@@ -173,14 +177,14 @@ int main(int argc, char* args[])
             }
             if (state[SDL_SCANCODE_RIGHT]) {
                 //printf("<RIGHT> is pressed.\n");
-                t+=2;
+                position+=4;
             }
             if (state[SDL_SCANCODE_LEFT]) {
                 //printf("<LEFT> is pressed.\n");
-                t-=2;
+                position-=4;
                 }
             SDL_SetRenderDrawColor(renderer,0,255,0,255);
-            effect_wandernder_balken(renderer, t);
+            effect_wandernder_balken(renderer, position);
 
         }
 
@@ -189,9 +193,6 @@ int main(int argc, char* args[])
 			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
 			effect_rand_points(renderer,x/20,1000);}
-
-
-		if(state[SDL_SCANCODE_F]){    //COole 3D sinus welle
 
 
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
@@ -227,7 +228,6 @@ int main(int argc, char* args[])
             //SDL_RenderPresent(renderer);
 
 		}
-*/
 
 
         SDL_RenderPresent(renderer); // Zeichne die Berechnungen auf den BIldschirm
