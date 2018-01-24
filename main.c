@@ -57,7 +57,7 @@ int main(int argc, char* args[])
 
 				WIDTH_GLOBAL,
 				HEIGHT_GLOBAL,
-				SDL_WINDOW_OPENGL
+				SDL_WINDOW_OPENGL || SDL_WINDOW_FULLSCREEN
 				);
 
     if (window == NULL) {
@@ -76,7 +76,7 @@ int main(int argc, char* args[])
     // Erstelle Alle nötigen Variablen für die Hauptschleife
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	int x=1;
-	int t=0;
+	int t = 1;
 	int frames=0;
 	unsigned long long rendertime=0;
 	unsigned long long start;
@@ -94,6 +94,8 @@ int main(int argc, char* args[])
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
 		// Lese diese Events aus
+
+
         if(state[SDL_SCANCODE_B]){     //Wandernder Balken
             if (t<0){
                 t=WIDTH_GLOBAL;
@@ -110,18 +112,15 @@ int main(int argc, char* args[])
             effect_wandernder_balken(renderer, t);
 
         }
+
 		if (state[SDL_SCANCODE_R]) { //Zufällige Punkte
 			//printf("<R> Pressed.\n");
 			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
-			effect_rand_points(renderer,x%10,50);}
+			effect_rand_points(renderer,x/20,1000);}
 
-		if (state[SDL_SCANCODE_4]){             //Caspar Hello world linie
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            effect_linieausprobieren(renderer, 1);
-		}
 
-		if(state[SDL_SCANCODE_F]){
+		if(state[SDL_SCANCODE_F]){    //COole 3D sinus welle
 
 
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
@@ -133,9 +132,12 @@ int main(int argc, char* args[])
             if(u==-100){
             h=1;
             }
-            effect_func_quad_alt(renderer,u*0.02,-1.57082144/2,800,450);
-            effect_func_quad_alt(renderer,u*0.02,1.57082144/2,800,450);
-            SDL_SetRenderDrawColor(renderer,0,255,0,255);
+            //effect_func_quad_alt(renderer,u*0.02,-1.57082144,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
+            for(int i = -10; i < 10; i++){
+            effect_func_quad_alt(renderer,u*0.02,1.57082144*2,WIDTH_GLOBAL/2+i,HEIGHT_GLOBAL/2+i);
+            }
+            //effect_func_quad_alt(renderer,u*0.02,0,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
+            /*SDL_SetRenderDrawColor(renderer,0,255,0,255);
             effect_func_quad_alt(renderer,u*0.02,-1.57082144/4,800,450);
             effect_func_quad_alt(renderer,u*0.02,1.57082144/4,800,450);
             SDL_SetRenderDrawColor(renderer,255,0,0,255);
@@ -146,16 +148,20 @@ int main(int argc, char* args[])
             effect_func_quad_alt(renderer,u*0.02,0,800,450);
             SDL_SetRenderDrawColor(renderer,0,255,255,255);
             effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
-            effect_func_kreis_unten(renderer,-exp(u*0.01),160,450);
+            effect_func_kreis_unten(renderer,-exp(u*0.01),160,450);*/
             //effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
             //effect_func_kreis_unten(renderer,-u*0.01-0.02,800,450);
-            u+=h;
+            u += h;
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
 
 		}
-		SDL_SetRenderDrawColor(renderer,100,100,100,200);
+
+		if(state[SDL_SCANCODE_K]){
+            SDL_SetRenderDrawColor(renderer,100,100,100,200);
             effect_coord(renderer);
+		}
+
 
 
         SDL_RenderPresent(renderer); // Zeichne die Berechnungen auf den BIldschirm
