@@ -19,16 +19,8 @@ struct function_start_time{
     char functionid;
     unsigned long long starttime;
 }function_start_time;
-void toBMP(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
-  if ((x < x_MIN) || (x > x_MAX) || (y < y_MIN) || (y > y_MAX)) {
-    *X = 0;
-    *Y = 0;
-    return;
-  }
-  *X = (int) ((x - x_MIN) * WIDTH_GLOBAL / (x_MAX - x_MIN));
-  *Y = HEIGHT_GLOBAL - (int) ((y - y_MIN) * HEIGHT_GLOBAL / (y_MAX - y_MIN));
-}
-void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
+
+void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) { //in Benutzung
   *X = (int) ((x - x_MIN) * WIDTH_GLOBAL / (x_MAX - x_MIN));
   *Y = HEIGHT_GLOBAL - (int) ((y - y_MIN) * HEIGHT_GLOBAL / (y_MAX - y_MIN));
 }
@@ -44,11 +36,6 @@ void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN
  * y - Berechnete mathematische Koordinate zwischen y_MIN und y_MAX.
  */
 void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
-  /*if ((X < 0) || (X > WIDTH_GLOBAL) || (Y < 0) || (Y > HEIGHT_GLOBAL)) {
-    *x = x_MIN;
-    *y = y_MIN;
-    return;
-  }*/
   *x = x_MIN + ((double) X * (x_MAX - x_MIN)) / WIDTH_GLOBAL;
   *y = y_MIN + ((double) (HEIGHT_GLOBAL - Y) * (y_MAX - y_MIN)) / HEIGHT_GLOBAL;
 }
@@ -62,19 +49,13 @@ struct SDL_Point vektorwinder(int x_alt,int y_alt, float angle,int x, int y ){
 double length_points(int x1,int y1, int x2, int y2){
  return sqrt(pow(x2-x1,2)+pow(y2-y1,2));
 }
-void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) {
+
+void effect_wandernder_balken(SDL_Renderer* renderer, int input_signal) { //cooler machen
 	for (int i = 0;i < 10;i++) {
 		SDL_RenderDrawLine(renderer, input_signal + i, 0, input_signal + i, HEIGHT_GLOBAL);
 	}
 }
-void effect_dummy(SDL_Renderer* renderer, int input_signal) {
 
-}
-
-//Hier hat Caspar was gemacht (etwas ausprobieren)
-void effect_linieausprobieren(SDL_Renderer* renderer, int input_signal){
-    SDL_RenderDrawLine(renderer, 100, 100, 200,200);
-}
 
 void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
     for(int y=0;y<HEIGHT_GLOBAL;y++){
@@ -86,7 +67,8 @@ void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
         }
 
 }
-void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points) {// random Punkte
+
+void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points) {// random Punkte (ziemlich cool)
     int i;
     int width;
     int height;
@@ -94,40 +76,14 @@ void effect_rand_points(SDL_Renderer* renderer, int input_signal,int num_points)
     for( i = 0 ; i < num_points ; i++ ) {
         width=rand() % WIDTH_GLOBAL;
         height=rand() % HEIGHT_GLOBAL;
-        SDL_RenderDrawPoint(renderer,width,height);
-        SDL_RenderDrawPoint(renderer,width+1,height);
-        SDL_RenderDrawPoint(renderer,width+1,height+1);
-        SDL_RenderDrawPoint(renderer,width,height+1);
-        SDL_RenderDrawPoint(renderer,width-1,height-1);
-        SDL_RenderDrawPoint(renderer,width,height-1);
-        SDL_RenderDrawPoint(renderer,width+1,height-1);
-        SDL_RenderDrawPoint(renderer,width-1,height+1);
-        SDL_RenderDrawPoint(renderer,width-1,height);
+        for(int y = -10; y < 10; y++){
+            for(int x = -10; x < 10; x++){
+                SDL_RenderDrawPoint(renderer,width + x,height +y);
+            }
+        }
         }
     }
 
-void effect_func_quad(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
-    /* Issues: Strich am oberen rand
-       Issues: Keine durchgehende Linie
-    */
-    char *screen;
-    int X,Y;
-    screen=calloc(HEIGHT_GLOBAL*WIDTH_GLOBAL,sizeof(char));
-    int XX, YY;
-    for (int X = 0; X < WIDTH_GLOBAL; X++) {
-    double x,y;
-    double of_y;
-    toMath(X-o_x+WIDTH_GLOBAL/2, HEIGHT_GLOBAL/2+o_y, &x, &of_y,-16,16,-9,9);          // Nur x interessiert
-    toBMP(x,x*x*radius+of_y, &XX, &YY,-16,16,-9,9);
-    screen[YY*WIDTH_GLOBAL+X]=1;
-    screen[(YY+1)*WIDTH_GLOBAL+X]=1;
-    screen[(YY+2)*WIDTH_GLOBAL+X]=1;
-    screen[(YY+3)*WIDTH_GLOBAL+X]=1;
-    screen[(YY+4)*WIDTH_GLOBAL+X]=1;
-    }
-    effect_array(renderer,screen);
-    free(screen);
-}
 void effect_func_quad_alt(SDL_Renderer* renderer, float radius, float angle, int o_x, int o_y){// quadratische Funktion
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
@@ -152,6 +108,7 @@ void effect_func_quad_alt(SDL_Renderer* renderer, float radius, float angle, int
 
     free(screen);
 }
+
 void effect_func_kreis_unten(SDL_Renderer* renderer, float radius, int o_x, int o_y){// quadratische Funktion
     /* Issues: Strich am oberen rand
        Issues: Keine durchgehende Linie
@@ -210,37 +167,14 @@ void effect_func_kreis_oben(SDL_Renderer* renderer, float radius, int o_x, int o
 
     free(screen);
 }
-void effect_func_sin(SDL_Renderer* renderer, float amplitude,float streckung, int o_x, int o_y){// Sinusfunktion printen
-    /* Issues: Strich am oberen rand
-       Issues: Keine durchgehende Linie
 
-
-    */
-    char *screen;
-    int X,Y;
-    screen=calloc(HEIGHT_GLOBAL*WIDTH_GLOBAL,sizeof(char));
-    int XX, YY;
-    for (int X = 0; X < WIDTH_GLOBAL; X++) {
-    double x,y;
-    double of_y;
-    toMath(X-o_x+WIDTH_GLOBAL/2, HEIGHT_GLOBAL/2+o_y, &x, &of_y,-16,16,-9,9);          // Nur x interessiert
-    toBMP(x,-amplitude*sin(x*streckung), &XX, &YY,-16,16,-9,9);
-    screen[YY*WIDTH_GLOBAL+X]=1;
-    screen[(YY+1)*WIDTH_GLOBAL+X]=1;
-    screen[(YY+2)*WIDTH_GLOBAL+X]=1;
-    screen[(YY+3)*WIDTH_GLOBAL+X]=1;
-    screen[(YY+4)*WIDTH_GLOBAL+X]=1;
-    }
-    effect_array(renderer,screen);
-    free(screen);
-}
 void effect_coord(SDL_Renderer* renderer){//Koordinatensystem printen
     char *screen;
     int X,Y;
     screen=calloc(HEIGHT_GLOBAL*WIDTH_GLOBAL,sizeof(char));
     int XX, YY;
 
-    toBMP(0.0, 0.0, &XX, &YY,-16,16,-9,9);
+    toBMP_alt(0.0, 0.0, &XX, &YY,-16,16,-9,9);
     for (int X = 0; X < WIDTH_GLOBAL; X++) {
         screen[YY * WIDTH_GLOBAL + X] = 1;
         }
@@ -249,6 +183,10 @@ void effect_coord(SDL_Renderer* renderer){//Koordinatensystem printen
         }
     effect_array(renderer,screen);
     free(screen);
+
+}
+
+void effect_3D_sinus(SDL_Renderer* renderer){
 
 }
 
