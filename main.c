@@ -16,12 +16,33 @@ unsigned long long milissinceepoch(){       //Funktion um die Milisekunden seit 
     return millisecondsSinceEpoch;
 
 }
+int firstfreeelement(struct function_start_time* arr){
+    int Last_element=0;
+    for(int i=0;i<sizeof(arr);i++){
+            if( arr[i].functionid==0){
+                Last_element=i;
+                break;
+            }
+            }
+    return Last_element;
+}
 
+int firstsameelement(struct function_start_time* arr,char func){
+    int same_element=0;
+    for(int i=0;i<sizeof(arr);i++){
+            if( arr[i].functionid==func){
+                same_element=i;
+                break;
+            }
+            }
+    return same_element;
+    }
 int main(int argc, char* args[])
 {   // initialisiere alle SDL wichtigen Variablen
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Event event;
+
     // struckt zur koordinierung der Funktionen
     struct function_start_time *starttimestruct;
     // initialisier SDL
@@ -43,6 +64,7 @@ int main(int argc, char* args[])
     else{
     printf("Display #%d: current display mode is %dx%dpx @ %dhz.", i, current.w, current.h, current.refresh_rate);
     }
+    printf("hi\n");
     /*funktioniert zz nicht bei SDL_GetNumVideoDisplays()>1*/
     WIDTH_GLOBAL=current.w;
     HEIGHT_GLOBAL=current.h;
@@ -79,12 +101,20 @@ int main(int argc, char* args[])
 	int speed = 500; //für Strobo effekt
 	int frames = 0;
 	int Color[3]; //speichert Farben
+	int t = 1;
+	int frames=0;
 	unsigned long long rendertime=0;
 	unsigned long long start;
 	unsigned long long stop;
 	unsigned long long time;
-	int u;
+	unsigned long long last_keypressed;
+	int h=1,u=0;
 	SDL_SetRenderDrawBlendMode(renderer,1);
+	struct function_start_time *fstart;
+	fstart=calloc(1,sizeof(function_start_time));
+	fstart[0].functionid=1;
+	int Last_element=0;
+	int same_element;
     while (x){
         // NEhme die Startzeit des Jetzigen Frames
         start=milissinceepoch();
@@ -92,11 +122,58 @@ int main(int argc, char* args[])
 		// Update die Tastatur und Fenster inputevents
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
-		u+=1;
 		// Lese diese Events aus
-        if(state[SDL_SCANCODE_B]){     //Wandernder Balken
-            if (position < 0){
-                position = WIDTH_GLOBAL;
+        if (milissinceepoch()-last_keypressed>200){
+
+        if (state[SDL_SCANCODE_F]){
+            last_keypressed=milissinceepoch();
+            if(state[SDL_SCANCODE_LSHIFT]){
+                same_element=firstsameelement(fstart,'f');
+                fstart[same_element].functionid=0;
+                fstart[same_element].starttime=0;
+                Last_element=firstfreeelement(fstart);
+            }
+            else{
+                fstart[Last_element].functionid='f';
+                fstart[Last_element].starttime=milissinceepoch();
+                Last_element=firstfreeelement(fstart);
+            }
+        }
+        if (state[SDL_SCANCODE_K]){
+            last_keypressed=milissinceepoch();
+            if(state[SDL_SCANCODE_LSHIFT]){
+                same_element=firstsameelement(fstart,'k');
+                fstart[same_element].functionid=0;
+                fstart[same_element].starttime=0;
+                Last_element=firstfreeelement(fstart);
+            }
+            else{
+                fstart[Last_element].functionid='k';
+                fstart[Last_element].starttime=milissinceepoch();
+                Last_element=firstfreeelement(fstart);
+            }
+        }
+        }
+        //printf("%d\n",firstfreeelement(fstart));
+        for(int i=0;i<sizeof(fstart);i++){
+
+        switch(fstart[i].functionid){
+        case 'f' :
+        SDL_SetRenderDrawColor(renderer,0,0,255,255);
+        effect_func_quad_alt(renderer,1,((double)(milissinceepoch()-fstart[i].starttime)/960),WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
+        break;
+
+        case 'k':
+        SDL_SetRenderDrawColor(renderer,100,100,100,200);
+            effect_coord(renderer);
+        break;
+        }
+        }
+
+
+        /*if(state[SDL_SCANCODE_B]){     //Wandernder Balken
+            if (t<0){
+                t=WIDTH_GLOBAL;
             }
             if (state[SDL_SCANCODE_RIGHT]) {
                 //printf("<RIGHT> is pressed.\n");
@@ -110,43 +187,47 @@ int main(int argc, char* args[])
             effect_wandernder_balken(renderer, position);
 
         }
+
 		if (state[SDL_SCANCODE_R]) { //Zufällige Punkte
 			//printf("<R> Pressed.\n");
 			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
-			effect_rand_points(renderer,x%10,50);}
-
-		if (state[SDL_SCANCODE_4]){             //Caspar Hello world linie
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            effect_linieausprobieren(renderer, 1);
-		}
-
-		if(state[SDL_SCANCODE_F]){ //funktion wird ausgegeben
+			effect_rand_points(renderer,x/20,1000);}
 
 
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
 
             //effect_func_test_dummy(renderer,u*0.01,0,0);
-            effect_func_quad(renderer,log(u*0.01),WIDTH_GLOBAL/2,0);
+            if(u==100){
+            h=-1;
+            }
+            if(u==-100){
+            h=1;
+            }
+            //effect_func_quad_alt(renderer,u*0.02,-1.57082144,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
+            for(int i = -10; i < 10; i++){
+            effect_func_quad_alt(renderer,u*0.02,1.57082144*2,WIDTH_GLOBAL/2+i,HEIGHT_GLOBAL/2+i);
+            }
+            //effect_func_quad_alt(renderer,u*0.02,0,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
+            SDL_SetRenderDrawColor(renderer,0,255,0,255);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4,800,450);
+            SDL_SetRenderDrawColor(renderer,255,0,0,255);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4*3,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4*3,800,450);
+            SDL_SetRenderDrawColor(renderer,255,0,255,255);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144,800,450);
+            effect_func_quad_alt(renderer,u*0.02,0,800,450);
+            SDL_SetRenderDrawColor(renderer,0,255,255,255);
+            effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
+            effect_func_kreis_unten(renderer,-exp(u*0.01),160,450);
+            //effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
+            //effect_func_kreis_unten(renderer,-u*0.01-0.02,800,450);
+            u += h;
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
 
 		}
-		if(state[SDL_SCANCODE_S]){
-            printf("Strobo aktiviert");
-            if(state[SDL_SCANCODE_UP])
-                speed -= 50;
-            if(state[SDL_SCANCODE_DOWN])
-                speed += 50;
-            effect_Strobo(renderer, speed);
-
-
-		}
-
-
-
-		//SDL_SetRenderDrawColor(renderer,100,100,100,200);
-        //    effect_coord(renderer);
 
 
         SDL_RenderPresent(renderer); // Zeichne die Berechnungen auf den BIldschirm
@@ -168,10 +249,12 @@ int main(int argc, char* args[])
 		if (frames%FPS_CAP){
             printf("Avarage rendertime in ms: %d\n",rendertime/frames);// printe den Durchschnitt
 		}
+
     if (time<(1000/FPS_CAP)){
         SDL_Delay((1000/FPS_CAP)-time);// Minimiere den Delay um die Renderzeit
     }
     }
+    free(fstart);
     SDL_DestroyWindow(window);// Räume auf
     }
     SDL_Quit();
