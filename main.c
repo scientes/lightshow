@@ -18,7 +18,7 @@ unsigned long long milissinceepoch(){       //Funktion um die Milisekunden seit 
 }
 int firstfreeelement(struct function_start_time* arr){
     int Last_element=0;
-    for(int i=0;i<sizeof(arr);i++){
+    for(int i=0;i<500;i++){
             if( arr[i].functionid==0){
                 Last_element=i;
                 break;
@@ -29,7 +29,7 @@ int firstfreeelement(struct function_start_time* arr){
 
 int firstsameelement(struct function_start_time* arr,char func){
     int same_element=0;
-    for(int i=0;i<sizeof(arr);i++){
+    for(int i=0;i<500;i++){
             if( arr[i].functionid==func){
                 same_element=i;
                 break;
@@ -111,8 +111,7 @@ int main(int argc, char* args[])
 	int h=1,u=0;
 	SDL_SetRenderDrawBlendMode(renderer,1);
 	struct function_start_time *fstart;
-	fstart=calloc(1,sizeof(function_start_time));
-	fstart[0].functionid=1;
+	fstart=calloc(500,sizeof(function_start_time));
 	int Last_element=0;
 	int same_element;
     while (x){
@@ -169,7 +168,16 @@ int main(int argc, char* args[])
         break;
         }
         }
-
+        if (state[SDL_SCANCODE_H]){
+        if(u==100){
+            h=-1;
+            }
+            if(u==-100){
+            h=1;
+            }
+        effect_3D_sinus(renderer,u);
+        u+=h;
+        }
 
         /*if(state[SDL_SCANCODE_B]){     //Wandernder Balken
             if (t<0){

@@ -198,8 +198,11 @@ void effect_coord(SDL_Renderer* renderer){//Koordinatensystem printen
 
 }
 
-void effect_3D_sinus(SDL_Renderer* renderer){
-
+void effect_3D_sinus(SDL_Renderer* renderer,int radius){
+    SDL_SetRenderDrawColor(renderer,0,0,255,255);
+            for(int i = -10; i < 10; i++){
+            effect_func_quad_alt(renderer,radius*0.02,1.57082144*2,WIDTH_GLOBAL/2+i,HEIGHT_GLOBAL/2+i);
+}
 }
 
 #endif // EFFECT_H_INCLUDED
