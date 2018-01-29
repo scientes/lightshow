@@ -42,6 +42,8 @@ int main(int argc, char* args[])
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Event event;
+    struct function_start_time *fstart;
+    fstart=calloc(500,sizeof(function_start_time));
 
     // struckt zur koordinierung der Funktionen
     struct function_start_time *starttimestruct;
@@ -78,7 +80,7 @@ int main(int argc, char* args[])
 
 				WIDTH_GLOBAL,
 				HEIGHT_GLOBAL,
-				SDL_WINDOW_OPENGL || SDL_WINDOW_FULLSCREEN
+				SDL_WINDOW_OPENGL
 				);
 
     if (window == NULL) {
@@ -98,11 +100,11 @@ int main(int argc, char* args[])
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	int x=1;
 	int position = 0; //für wanderbalken
+	int positionY = 0;
 	int speed = 500; //für Strobo effekt
 	int frames = 0;
 	int Color[3]; //speichert Farben
 	int t = 1;
-	int frames=0;
 	unsigned long long rendertime=0;
 	unsigned long long start;
 	unsigned long long stop;
@@ -110,8 +112,8 @@ int main(int argc, char* args[])
 	unsigned long long last_keypressed;
 	int h=1,u=0;
 	SDL_SetRenderDrawBlendMode(renderer,1);
-	struct function_start_time *fstart;
-	fstart=calloc(500,sizeof(function_start_time));
+
+
 	int Last_element=0;
 	int same_element;
     while (x){
@@ -179,7 +181,7 @@ int main(int argc, char* args[])
         u+=h;
         }
 
-        /*if(state[SDL_SCANCODE_B]){     //Wandernder Balken
+        if(state[SDL_SCANCODE_B]){     //Wandernder Balken
             if (t<0){
                 t=WIDTH_GLOBAL;
             }
@@ -191,10 +193,18 @@ int main(int argc, char* args[])
                 //printf("<LEFT> is pressed.\n");
                 position-=4;
                 }
+            if (state[SDL_SCANCODE_UP]){
+                positionY -= 4;
+            }
+            if (state[SDL_SCANCODE_DOWN]){
+                positionY +=4;
+            }
             SDL_SetRenderDrawColor(renderer,0,255,0,255);
-            effect_wandernder_balken(renderer, position);
+            effect_wandernder_balkenY(renderer, position);
+            SDL_SetRenderDrawColor(renderer,0,255,0,255);
+            effect_wandernder_balkenX(renderer, positionY);
+            }
 
-        }
 
 		if (state[SDL_SCANCODE_R]) { //Zufällige Punkte
 			//printf("<R> Pressed.\n");
@@ -204,7 +214,7 @@ int main(int argc, char* args[])
 
 
             SDL_SetRenderDrawColor(renderer,0,0,255,255);
-
+        if (state[SDL_SCANCODE_G]){
             //effect_func_test_dummy(renderer,u*0.01,0,0);
             if(u==100){
             h=-1;
@@ -218,24 +228,25 @@ int main(int argc, char* args[])
             }
             //effect_func_quad_alt(renderer,u*0.02,0,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
             SDL_SetRenderDrawColor(renderer,0,255,0,255);
-            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4,800,450);
-            effect_func_quad_alt(renderer,u*0.02,1.57082144/4,800,450);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
             SDL_SetRenderDrawColor(renderer,255,0,0,255);
-            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4*3,800,450);
-            effect_func_quad_alt(renderer,u*0.02,1.57082144/4*3,800,450);
+            effect_func_quad_alt(renderer,u*0.02,-1.57082144/4*3,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144/4*3,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
             SDL_SetRenderDrawColor(renderer,255,0,255,255);
-            effect_func_quad_alt(renderer,u*0.02,1.57082144,800,450);
+            effect_func_quad_alt(renderer,u*0.02,1.57082144,WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
             effect_func_quad_alt(renderer,u*0.02,0,800,450);
             SDL_SetRenderDrawColor(renderer,0,255,255,255);
-            effect_func_kreis_oben(renderer,exp(u*0.01),800,450);
+            effect_func_kreis_oben(renderer,exp(u*0.01),WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
             effect_func_kreis_unten(renderer,-exp(u*0.01),160,450);
             //effect_func_kreis_oben(renderer,u*0.01-0.02,800,450);
             //effect_func_kreis_unten(renderer,-u*0.01-0.02,800,450);
             u += h;
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
+            }
 
-		}
+
 
 
         SDL_RenderPresent(renderer); // Zeichne die Berechnungen auf den BIldschirm
@@ -249,6 +260,7 @@ int main(int argc, char* args[])
 		if (state[SDL_SCANCODE_ESCAPE]){
             printf("ESC pressed.Aborting\n");
             x=0;
+		}
 		}
 		frames++;
 		stop=milissinceepoch();
@@ -264,7 +276,7 @@ int main(int argc, char* args[])
     }
     free(fstart);
     SDL_DestroyWindow(window);// Räume auf
-    }
+
     SDL_Quit();
   return 0;
 }

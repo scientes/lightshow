@@ -33,7 +33,7 @@ void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN
  *
  * X - Wert zwischen 0 und WIDTH_GLOBAL.
  * Y - Wert zwischen 0 und HEIGHT_GLOBAL.
- * x - Berechnete mathematische Koordinate zwischen x_MIN und x_MAX.
+ * x - Berechnete mathematische Koordinate zwischen Kx_MIN und x_MAX.
  * y - Berechnete mathematische Koordinate zwischen y_MIN und y_MAX.
  */
 void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
@@ -51,14 +51,19 @@ struct SDL_Point vektorwinder(int x_alt,int y_alt, float angle,int x, int y ){
 double length_points(int x1,int y1, int x2, int y2){
  return sqrt(pow(x2-x1,2)+pow(y2-y1,2));
 }
-void effect_wandernder_balken(SDL_Renderer* renderer, int position) {
+void effect_wandernder_balkenY(SDL_Renderer* renderer, int position) {
 	for (int i = 0;i < 10;i++) {
 		SDL_RenderDrawLine(renderer, position + i, 0, position + i, HEIGHT_GLOBAL);
 	}
 }
+void effect_wandernder_balkenX(SDL_Renderer* renderer, int position) {
+	for (int i = 0;i < 10;i++) {
+		SDL_RenderDrawLine(renderer, 0, position + i, WIDTH_GLOBAL, position + i);
+	}
+}
 
 
-void effect_Strobo(SDL_Renderer* renderer, speed){
+void effect_Strobo(SDL_Renderer* renderer, int speed){
     SDL_SetRenderDrawColor(renderer,255,255,255,255);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
