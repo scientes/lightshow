@@ -27,3 +27,17 @@
 	<SDL2/SDL.h>
 	<math.h>
 
+1517237124 source:/Users/peaveywalter/Documents/lightshow/main.c
+	<stdio.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+	"effect.h"
+	<time.h>
+	<sys/time.h>
+
+1517237124 /Users/peaveywalter/Documents/lightshow/effect.h
+	<stdio.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+	<math.h>
+

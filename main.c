@@ -7,7 +7,6 @@
 
 unsigned long long milissinceepoch(){       //Funktion um die Milisekunden seit Epoch Ausszugeben. Format ist unsigned long long, um lanjährige Kompatibilität zu gewehrleisten
 
-
     struct timeval tv;
 
     gettimeofday(&tv, NULL);
@@ -201,7 +200,7 @@ int main(int argc, char* args[])
             }
             SDL_SetRenderDrawColor(renderer,0,255,0,255);
             effect_wandernder_balkenY(renderer, position);
-            SDL_SetRenderDrawColor(renderer,0,255,0,255);
+            SDL_SetRenderDrawColor(renderer,255,0,0,255);
             effect_wandernder_balkenX(renderer, positionY);
             }
 
@@ -269,7 +268,6 @@ int main(int argc, char* args[])
 		if (frames%FPS_CAP){
             printf("Avarage rendertime in ms: %d\n",rendertime/frames);// printe den Durchschnitt
 		}
-
     if (time<(1000/FPS_CAP)){
         SDL_Delay((1000/FPS_CAP)-time);// Minimiere den Delay um die Renderzeit
     }
@@ -280,4 +278,3 @@ int main(int argc, char* args[])
     SDL_Quit();
   return 0;
 }
-

@@ -21,6 +21,8 @@ struct function_start_time{
     unsigned long long starttime;
 }function_start_time;
 
+struct function_start_time speicher[100];
+
 void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) { //in Benutzung
   *X = (int) ((x - x_MIN) * WIDTH_GLOBAL / (x_MAX - x_MIN));
   *Y = HEIGHT_GLOBAL - (int) ((y - y_MIN) * HEIGHT_GLOBAL / (y_MAX - y_MIN));
@@ -33,7 +35,7 @@ void toBMP_alt(double x, double y, int* X, int* Y,int x_MIN,int x_MAX, int y_MIN
  *
  * X - Wert zwischen 0 und WIDTH_GLOBAL.
  * Y - Wert zwischen 0 und HEIGHT_GLOBAL.
- * x - Berechnete mathematische Koordinate zwischen Kx_MIN und x_MAX.
+ * x - Berechnete mathematische Koordinate zwischen x_MIN und x_MAX.
  * y - Berechnete mathematische Koordinate zwischen y_MIN und y_MAX.
  */
 void toMath(int X, int Y, double* x, double* y,int x_MIN,int x_MAX, int y_MIN, int y_MAX) {
@@ -200,7 +202,6 @@ void effect_coord(SDL_Renderer* renderer){//Koordinatensystem printen
         }
     effect_array(renderer,screen);
     free(screen);
-
 }
 
 void effect_3D_sinus(SDL_Renderer* renderer,int radius){
