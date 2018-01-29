@@ -51,12 +51,16 @@ struct SDL_Point vektorwinder(int x_alt,int y_alt, float angle,int x, int y ){
 double length_points(int x1,int y1, int x2, int y2){
  return sqrt(pow(x2-x1,2)+pow(y2-y1,2));
 }
-void effect_wandernder_balkenY(SDL_Renderer* renderer, int position) {
+
+
+
+void effect_wandernder_balkenY(SDL_Renderer* renderer, position) {
 	for (int i = 0;i < 10;i++) {
 		SDL_RenderDrawLine(renderer, position + i, 0, position + i, HEIGHT_GLOBAL);
 	}
 }
-void effect_wandernder_balkenX(SDL_Renderer* renderer, int position) {
+
+void effect_wandernder_balkenX(SDL_Renderer* renderer, position) {
 	for (int i = 0;i < 10;i++) {
 		SDL_RenderDrawLine(renderer, 0, position + i, WIDTH_GLOBAL, position + i);
 	}

@@ -181,23 +181,27 @@ int main(int argc, char* args[])
         u+=h;
         }
 
+
         if(state[SDL_SCANCODE_B]){     //Wandernder Balken
-            if (t<0){
-                t=WIDTH_GLOBAL;
+            if (state[SDL_SCANCODE_RIGHT] && position < WIDTH_GLOBAL) {
+                if(position < WIDTH_GLOBAL - 4)
+                    position += 4;
+                else    position = 0;
             }
-            if (state[SDL_SCANCODE_RIGHT]) {
-                //printf("<RIGHT> is pressed.\n");
-                position+=4;
-            }
-            if (state[SDL_SCANCODE_LEFT]) {
-                //printf("<LEFT> is pressed.\n");
-                position-=4;
+            if (state[SDL_SCANCODE_LEFT]) {         //Abfragen für die Richtung, in die der Balken wa
+                if(position > 4)
+                    position -= 4;
+                else    position = WIDTH_GLOBAL;
                 }
             if (state[SDL_SCANCODE_UP]){
-                positionY -= 4;
+                if(positionY > 0)
+                    positionY -= 4;
+                else    positionY = WIDTH_GLOBAL;
             }
             if (state[SDL_SCANCODE_DOWN]){
-                positionY +=4;
+                if(positionY < HEIGHT_GLOBAL)
+                    positionY +=4;
+                else    positionY = 0;
             }
             SDL_SetRenderDrawColor(renderer,0,255,0,255);
             effect_wandernder_balkenY(renderer, position);
