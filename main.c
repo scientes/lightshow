@@ -87,6 +87,21 @@ int main(int argc, char* args[])
         printf("Could not create window: %s\n", SDL_GetError());
         return 1;
     }
+
+    struct presentation {
+        int rotierender_balken;
+        int randomPoints;
+        int presentation;
+    } active;
+
+    //time_t seconds, starttime_pr;
+    //seconds = milissinceepoch();
+    //starttime_pr = time(NULL);
+
+
+    active.rotierender_balken = 0;
+    active.randomPoints = 0;
+
     // erstellen des Renderes für das Window
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_PRESENTVSYNC );
     // Male den Bildschirm schwarz
@@ -100,18 +115,19 @@ int main(int argc, char* args[])
 	int x=1;
 	int position = 0; //für wanderbalken
 	int positionY = 0;
+	float angle = 0;
 	int speed = 500; //für Strobo effekt
 	int frames = 0;
 	int Color[3]; //speichert Farben
 	int t = 1;
+	int time;
+	time_t starttime_pres;
 	unsigned long long rendertime=0;
 	unsigned long long start;
 	unsigned long long stop;
-	unsigned long long time;
 	unsigned long long last_keypressed;
 	int h=1,u=0;
 	SDL_SetRenderDrawBlendMode(renderer,1);
-
 
 	int Last_element=0;
 	int same_element;
@@ -202,14 +218,21 @@ int main(int argc, char* args[])
                     positionY +=4;
                 else    positionY = 0;
             }
+
             SDL_SetRenderDrawColor(renderer,0,255,0,255);
-            effect_wandernder_balkenY(renderer, position);
+            effect_wandernder_balkenY(renderer, position, 0);
             SDL_SetRenderDrawColor(renderer,255,0,0,255);
             effect_wandernder_balkenX(renderer, positionY);
             }
 
+        if (state[SDL_SCANCODE_N] || active.rotierender_balken == 1){
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+            effect_wandernder_balkenY(renderer, WIDTH_GLOBAL/2, angle);
+            angle += 0.01;
+        }
 
-		if (state[SDL_SCANCODE_R]) { //Zufällige Punkte
+
+		if (state[SDL_SCANCODE_R] || active.randomPoints == 1) { //Zufällige Punkte
 			//printf("<R> Pressed.\n");
 			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
 			SDL_SetRenderDrawColor(renderer,200,0,0,255);
@@ -248,6 +271,44 @@ int main(int argc, char* args[])
             //effect_func_sin(renderer,u*0.01,0.5,800,450);
             //SDL_RenderPresent(renderer);
             }
+
+        //Vorfuehrung
+
+        if (state[SDL_SCANCODE_P] || active.presentation == 1){
+            //seconds = time(NULL);
+
+            if (state[SDL_SCANCODE_P]){
+            starttime_pres = milissinceepoch();
+            printf("%.30e\n", starttime_pres);
+            //starttime_presentation = seconds;
+            //printf("%.30e\n", starttime_presentation);
+            }
+
+            active.presentation = 1;
+
+            //if((seconds - starttime_presentation) < 2){
+                active.rotierender_balken = 1;
+           //}//else{
+                //active.rotierender_balken = 0;
+            //}
+
+
+            if(state[SDL_SCANCODE_0]){
+                active.presentation = 0;
+                active.rotierender_balken = 0;
+                active.randomPoints = 0;
+            }
+
+        }
+
+
+
+
+
+
+
+
+
 
 
 

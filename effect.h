@@ -56,9 +56,13 @@ double length_points(int x1,int y1, int x2, int y2){
 
 
 
-void effect_wandernder_balkenY(SDL_Renderer* renderer, position) {
+void effect_wandernder_balkenY(SDL_Renderer* renderer, position,float angle) {
+	struct SDL_Point x_neu;
+	struct SDL_Point y_neu;
 	for (int i = 0;i < 10;i++) {
-		SDL_RenderDrawLine(renderer, position + i, 0, position + i, HEIGHT_GLOBAL);
+	    x_neu = vektorwinder(position +i, 0, angle, WIDTH_GLOBAL/ 2, HEIGHT_GLOBAL/2);
+	    y_neu = vektorwinder(position +i, HEIGHT_GLOBAL, angle,WIDTH_GLOBAL/2, HEIGHT_GLOBAL/2);
+		SDL_RenderDrawLine(renderer, x_neu.x, x_neu.y, y_neu.x, y_neu.y);
 	}
 }
 
@@ -67,6 +71,8 @@ void effect_wandernder_balkenX(SDL_Renderer* renderer, position) {
 		SDL_RenderDrawLine(renderer, 0, position + i, WIDTH_GLOBAL, position + i);
 	}
 }
+
+
 
 
 void effect_Strobo(SDL_Renderer* renderer, int speed){
