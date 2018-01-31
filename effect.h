@@ -5,6 +5,81 @@
 #include <SDL2/SDL.h>
 #include <math.h>
 #define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
+#include <SDL2/SDL.h>
+
+#define MUS_PATH "nero.wav"
+
+// prototype for our audio callback
+// see the implementation for more information
+
+// variable declarations
+static Uint8 *audio_pos; // global pointer to the audio buffer to be played
+static Uint32 audio_len; // remaining length of the sample we have to play
+void my_audio_callback(void *userdata, Uint8 *stream, unsigned int len) {
+
+	if (audio_len ==0)
+		return;
+
+	len = ( len > audio_len ? audio_len : len );
+	SDL_memcpy (stream, audio_pos, len); 					// simply copy from one buffer into the other
+	//SDL_MixAudio(stream, audio_pos, len, SDL_MIX_MAXVOLUME);// mix from one buffer into another
+
+	audio_pos += len;
+	audio_len -= len;
+}
+
+/*
+** PLAYING A SOUND IS MUCH MORE COMPLICATED THAN IT SHOULD BE
+*/
+Uint8* play(){
+	// Initialize SDL.
+	if (SDL_Init(SDL_INIT_AUDIO) < 0)
+			return 1;
+
+	// local variables
+	static Uint32 wav_length; // length of our sample
+	static Uint8 *wav_buffer; // buffer containing our audio file
+	static SDL_AudioSpec wav_spec; // the specs of our piece of music
+
+    printf("hi");
+	/* Load the WAV */
+	// the specs, length and buffer of our wav are filled
+	if( SDL_LoadWAV(MUS_PATH, &wav_spec, &wav_buffer, &wav_length) == NULL ){
+	  return 1;
+	}
+	// set the callback function
+	wav_spec.callback = my_audio_callback;
+	wav_spec.userdata = NULL;
+
+	// set our global static variables
+	audio_pos = wav_buffer; // copy sound buffer
+	audio_len = wav_length; // copy file length
+
+	/* Open the audio device */
+	printf("%d\n",wav_spec.freq);
+	if ( SDL_OpenAudio(&wav_spec, NULL) < 0 ){
+	  fprintf(stderr, "Couldn't open audio: %s\n", SDL_GetError());
+	  exit(-1);
+	}
+    printf("%d\n",wav_spec.freq);
+	/* Start playing */
+	SDL_PauseAudio(0);
+
+
+	// wait until we're don't playing
+	while ( audio_len > 0 ) {
+		SDL_Delay(10);
+	}
+
+	// shut everything down
+	atexit(abort_play(wav_buffer));
+
+}
+void abort_play(Uint8* wav_buf){
+    SDL_CloseAudio();
+	SDL_FreeWAV(wav_buf);
+
+}
 
 int WIDTH_GLOBAL,HEIGHT_GLOBAL,FPS_CAP;
 /**
@@ -56,7 +131,7 @@ double length_points(int x1,int y1, int x2, int y2){
 
 
 
-void effect_wandernder_balkenY(SDL_Renderer* renderer, position,float angle) {
+void effect_wandernder_balkenY(SDL_Renderer* renderer, int position,float angle) {
 	struct SDL_Point x_neu;
 	struct SDL_Point y_neu;
 	for (int i = 0;i < 10;i++) {
@@ -66,7 +141,7 @@ void effect_wandernder_balkenY(SDL_Renderer* renderer, position,float angle) {
 	}
 }
 
-void effect_wandernder_balkenX(SDL_Renderer* renderer, position) {
+void effect_wandernder_balkenX(SDL_Renderer* renderer,int position) {
 	for (int i = 0;i < 10;i++) {
 		SDL_RenderDrawLine(renderer, 0, position + i, WIDTH_GLOBAL, position + i);
 	}

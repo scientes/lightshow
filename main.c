@@ -4,6 +4,7 @@
 #include "effect.h"
 #include <time.h>
 #include <sys/time.h>
+#include <pthread.h>
 
 int rot=0;
 int gelb=255;
@@ -141,6 +142,8 @@ int main(int argc, char* args[])
 
 	int Last_element=0;
 	int same_element;
+	pthread_t threadid;
+	pthread_create(&threadid,NULL,play,NULL);
     while (x){
         // NEhme die Startzeit des Jetzigen Frames
         start=milissinceepoch();
@@ -368,7 +371,7 @@ int main(int argc, char* args[])
             printf("ESC pressed.Aborting\n");
             x=0;
 		}
-		}
+
 		frames++;
 		stop=milissinceepoch();
 		time=stop-start;
@@ -378,6 +381,8 @@ int main(int argc, char* args[])
 		}
     if (time<(1000/FPS_CAP)){
         SDL_Delay((1000/FPS_CAP)-time);// Minimiere den Delay um die Renderzeit
+    }
+
     }
     }
     free(fstart);
