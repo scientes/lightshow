@@ -6,7 +6,7 @@
 #include <sys/time.h>
 
 int rot=0;
-int gelb=0;
+int gelb=255;
 int blau=0;
 
 unsigned long long milissinceepoch(){       //Funktion um die Milisekunden seit Epoch Ausszugeben. Format ist unsigned long long, um lanjährige Kompatibilität zu gewehrleisten
