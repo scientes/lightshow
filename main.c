@@ -378,7 +378,7 @@ int main(int argc, char* args[])
 		time=stop-start;
 		rendertime+=time;// brechene die Zeit die Für den Frame gebraucht wurde
 		if (frames%FPS_CAP){
-            printf("Avarage rendertime in ms: %d\n",rendertime/frames);// printe den Durchschnitt
+            //printf("Avarage rendertime in ms: %d\n",rendertime/frames);// printe den Durchschnitt
 		}
     if (time<(1000/FPS_CAP)){
         SDL_Delay((1000/FPS_CAP)-time);// Minimiere den Delay um die Renderzeit

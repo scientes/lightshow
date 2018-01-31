@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1517398527 source:/home/bastian/Desktop/github/lightshow2/main.c
+1517399060 source:/home/bastian/Desktop/github/lightshow2/main.c
 	<stdio.h>
 	<stdlib.h>
 	<SDL2/SDL.h>
@@ -8,7 +8,7 @@
 	<sys/time.h>
 	<pthread.h>
 
-1517398692 /home/bastian/Desktop/github/lightshow2/effect.h
+1517398922 /home/bastian/Desktop/github/lightshow2/effect.h
 	<stdio.h>
 	<stdlib.h>
 	<SDL2/SDL.h>
