@@ -313,19 +313,16 @@ int main(int argc, char* args[])
                 active.LEFT = 1;
                 active.DOWN = 1;
             }
-
-            else {
+            if(time_running > 15000)
+                //starttime_presentation = milissinceepoch();
                 active.balken = 0;
                 active.LEFT = 0;
                 active.DOWN = 0;
-            }
 
 
 
             if(state[SDL_SCANCODE_0]){
                 active.presentation = 0;
-                active.rotierender_balken = 0;
-                active.randomPoints = 0;
             }
 
         }
