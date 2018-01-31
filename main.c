@@ -96,6 +96,11 @@ int main(int argc, char* args[])
         int rotierender_balken;
         int randomPoints;
         int presentation;
+        int sinus3d;
+        int krake;
+        int balken;
+        int LEFT;
+        int DOWN;
     } active;
 
     //time_t seconds, starttime_pr;
@@ -125,7 +130,8 @@ int main(int argc, char* args[])
 	int Color[3]; //speichert Farben
 	int t = 1;
 	int time;
-	time_t starttime_pres;
+	int time_running;
+	unsigned long long starttime_presentation;
 	unsigned long long rendertime=0;
 	unsigned long long start;
 	unsigned long long stop;
@@ -206,7 +212,7 @@ int main(int argc, char* args[])
         break;
         }
         }
-        if (state[SDL_SCANCODE_H]){
+        if (state[SDL_SCANCODE_H] || active.sinus3d == 1){
         if(u==100){
             h=-1;
             }
@@ -218,13 +224,13 @@ int main(int argc, char* args[])
         }
 
 
-        if(state[SDL_SCANCODE_B]){     //Wandernder Balken
+        if(state[SDL_SCANCODE_B] || active.balken == 1){     //Wandernder Balken
             if (state[SDL_SCANCODE_RIGHT] && position < WIDTH_GLOBAL) {
                 if(position < WIDTH_GLOBAL - 4)
                     position += 4;
                 else    position = 0;
             }
-            if (state[SDL_SCANCODE_LEFT]) {         //Abfragen für die Richtung, in die der Balken wa
+            if (state[SDL_SCANCODE_LEFT] || active.LEFT == 1) {         //Abfragen für die Richtung, in die der Balken wa
                 if(position > 4)
                     position -= 4;
                 else    position = WIDTH_GLOBAL;
@@ -234,7 +240,7 @@ int main(int argc, char* args[])
                     positionY -= 4;
                 else    positionY = WIDTH_GLOBAL;
             }
-            if (state[SDL_SCANCODE_DOWN]){
+            if (state[SDL_SCANCODE_DOWN] || active.DOWN == 1){
                 if(positionY < HEIGHT_GLOBAL)
                     positionY +=4;
                 else    positionY = 0;
@@ -264,10 +270,8 @@ int main(int argc, char* args[])
 			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
 			SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
 			effect_rand_points(renderer,x/20,1000);}
-
-
             SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
-        if (state[SDL_SCANCODE_G]){
+        if (state[SDL_SCANCODE_G || active.krake == 1]){
             //effect_func_test_dummy(renderer,u*0.01,0,0);
             if(u==100){
             h=-1;
@@ -302,39 +306,51 @@ int main(int argc, char* args[])
         //Vorfuehrung
 
         if (state[SDL_SCANCODE_P] || active.presentation == 1){
-            //seconds = time(NULL);
-
-            if (state[SDL_SCANCODE_P]){
-            starttime_pres = milissinceepoch();
-            printf("%.30e\n", starttime_pres);
-            //starttime_presentation = seconds;
-            //printf("%.30e\n", starttime_presentation);
-            }
-
             active.presentation = 1;
 
-            //if((seconds - starttime_presentation) < 2){
+            if (state[SDL_SCANCODE_P]){
+            starttime_presentation = milissinceepoch();
+            //printf("%d\n", starttime_presentation);
+            }
+
+            time_running = (milissinceepoch() - starttime_presentation);
+
+
+                //die Abfolge
+            if(time_running < 2000){
                 active.rotierender_balken = 1;
-           //}//else{
-                //active.rotierender_balken = 0;
-            //}
+            }
+            if(time_running > 2000 && time_running < 4000){
+                active.rotierender_balken = 0;
+                active.randomPoints = 1;
+            }
+            if(time_running > 4000 && time_running < 6000){
+                active.randomPoints = 0;
+                active.sinus3d = 1;
+            }
+            if(time_running > 6000 && time_running < 10000){
+                active.sinus3d = 0;
+                active.krake = 1;
+            }
+            if(time_running > 10000 && time_running < 15000){
+                active.krake = 0;
+                active.balken = 1;
+                active.LEFT = 1;
+                active.DOWN = 1;
+            }
+            if(time_running > 15000)
+                //starttime_presentation = milissinceepoch();
+                active.balken = 0;
+                active.LEFT = 0;
+                active.DOWN = 0;
+
 
 
             if(state[SDL_SCANCODE_0]){
                 active.presentation = 0;
-                active.rotierender_balken = 0;
-                active.randomPoints = 0;
             }
 
         }
-
-
-
-
-
-
-
-
 
 
 
