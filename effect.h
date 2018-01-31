@@ -146,7 +146,7 @@ void effect_wandernder_balkenX(SDL_Renderer* renderer,int position) {
 		SDL_RenderDrawLine(renderer, 0, position + i, WIDTH_GLOBAL, position + i);
 	}
 }
-void effect_balken_kreis(SDL_Renderer* renderer, position,float angle){
+void effect_balken_kreis(SDL_Renderer* renderer, int position,float angle){
     struct SDL_Point x_neu;
 	struct SDL_Point y_neu;
 	angle *= -1;

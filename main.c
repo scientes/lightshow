@@ -152,7 +152,7 @@ int main(int argc, char* args[])
 		SDL_PumpEvents();
 		SDL_PollEvent(&event);
 		// Lese diese Events aus
-        if (milissinceepoch()-last_keypressed>200){
+        if (milissinceepoch()-last_keypressed>100){
 
         if (state[SDL_SCANCODE_F]){
             last_keypressed=milissinceepoch();
@@ -181,6 +181,7 @@ int main(int argc, char* args[])
                 fstart[Last_element].starttime=milissinceepoch();
                 Last_element=firstfreeelement(fstart);
             }
+        }
         }
         if (state[SDL_SCANCODE_1] || state[SDL_SCANCODE_2] || state[SDL_SCANCODE_3]){
             if(state[SDL_SCANCODE_1]){
@@ -392,4 +393,4 @@ int main(int argc, char* args[])
   return 0;
 }
 
-}
+
