@@ -71,19 +71,15 @@ void effect_wandernder_balkenX(SDL_Renderer* renderer, position) {
 		SDL_RenderDrawLine(renderer, 0, position + i, WIDTH_GLOBAL, position + i);
 	}
 }
-
-
-
-
-void effect_Strobo(SDL_Renderer* renderer, int speed){
-    SDL_SetRenderDrawColor(renderer,255,255,255,255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-    SDL_Delay(speed);
-    SDL_SetRenderDrawColor(renderer,0,0,0,255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-    SDL_Delay(speed);
+void effect_balken_kreis(SDL_Renderer* renderer, position,float angle){
+    struct SDL_Point x_neu;
+	struct SDL_Point y_neu;
+	angle *= -1;
+	for (int i = 0;i < 10;i++) {
+	    x_neu = vektorwinder(position +i, 0, angle, WIDTH_GLOBAL/ 2, HEIGHT_GLOBAL/2);
+	    y_neu = vektorwinder(position +i, HEIGHT_GLOBAL, angle,WIDTH_GLOBAL/2, HEIGHT_GLOBAL/2);
+		SDL_RenderDrawLine(renderer, x_neu.x, x_neu.y, y_neu.x, y_neu.y);
+	}
 }
 
 void effect_array(SDL_Renderer* renderer, char* pixel_array ) {
@@ -215,7 +211,7 @@ void effect_coord(SDL_Renderer* renderer){//Koordinatensystem printen
 }
 
 void effect_3D_sinus(SDL_Renderer* renderer,int radius){
-    SDL_SetRenderDrawColor(renderer,0,0,255,255);
+    SDL_SetRenderDrawColor(renderer,255,0,0,255);
             for(int i = -10; i < 10; i++){
             effect_func_quad_alt(renderer,radius*0.02,1.57082144*2,WIDTH_GLOBAL/2+i,HEIGHT_GLOBAL/2+i);
 }

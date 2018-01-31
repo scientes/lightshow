@@ -41,3 +41,17 @@
 	<SDL2/SDL.h>
 	<math.h>
 
+1517395903 source:/Users/peaveywalter/Documents/GitHub/lightshow/main.c
+	<stdio.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+	"effect.h"
+	<time.h>
+	<sys/time.h>
+
+1517396553 /Users/peaveywalter/Documents/GitHub/lightshow/effect.h
+	<stdio.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+	<math.h>
+

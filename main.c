@@ -5,6 +5,10 @@
 #include <time.h>
 #include <sys/time.h>
 
+int rot=0;
+int gelb=0;
+int blau=0;
+
 unsigned long long milissinceepoch(){       //Funktion um die Milisekunden seit Epoch Ausszugeben. Format ist unsigned long long, um lanjährige Kompatibilität zu gewehrleisten
 
     struct timeval tv;
@@ -169,13 +173,30 @@ int main(int argc, char* args[])
                 Last_element=firstfreeelement(fstart);
             }
         }
+        if (state[SDL_SCANCODE_1] || state[SDL_SCANCODE_2] || state[SDL_SCANCODE_3]){
+            if(state[SDL_SCANCODE_1]){
+                rot = 255;
+                gelb = 0;
+                blau = 0;
+            }
+            if(state[SDL_SCANCODE_2]){
+                rot = 0;
+                gelb = 255;
+                blau = 0;
+            }
+            if(state[SDL_SCANCODE_3]){
+                rot = 0;
+                gelb = 0;
+                blau = 255;
+            }
+
         }
         //printf("%d\n",firstfreeelement(fstart));
         for(int i=0;i<sizeof(fstart);i++){
 
         switch(fstart[i].functionid){
         case 'f' :
-        SDL_SetRenderDrawColor(renderer,0,0,255,255);
+        SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
         effect_func_quad_alt(renderer,1,((double)(milissinceepoch()-fstart[i].starttime)/960),WIDTH_GLOBAL/2,HEIGHT_GLOBAL/2);
         break;
 
@@ -219,27 +240,33 @@ int main(int argc, char* args[])
                 else    positionY = 0;
             }
 
-            SDL_SetRenderDrawColor(renderer,0,255,0,255);
+            SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
             effect_wandernder_balkenY(renderer, position, 0);
-            SDL_SetRenderDrawColor(renderer,255,0,0,255);
+            SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
             effect_wandernder_balkenX(renderer, positionY);
             }
 
         if (state[SDL_SCANCODE_N] || active.rotierender_balken == 1){
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+            SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
             effect_wandernder_balkenY(renderer, WIDTH_GLOBAL/2, angle);
-            angle += 0.01;
+            angle += 0.005;
         }
-
+        if (state[SDL_SCANCODE_M] || active.rotierender_balken == 1){
+            SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
+            effect_balken_kreis(renderer, WIDTH_GLOBAL/2, angle);
+            if( !state[SDL_SCANCODE_N]){
+                angle += 0.005;
+            }
+        }
 
 		if (state[SDL_SCANCODE_R] || active.randomPoints == 1) { //Zufällige Punkte
 			//printf("<R> Pressed.\n");
 			// Male zufällig Punkte auf den Bildschirm (aus effect.h)
-			SDL_SetRenderDrawColor(renderer,200,0,0,255);
+			SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
 			effect_rand_points(renderer,x/20,1000);}
 
 
-            SDL_SetRenderDrawColor(renderer,0,0,255,255);
+            SDL_SetRenderDrawColor(renderer,rot,gelb,blau,255);
         if (state[SDL_SCANCODE_G]){
             //effect_func_test_dummy(renderer,u*0.01,0,0);
             if(u==100){
@@ -342,4 +369,6 @@ int main(int argc, char* args[])
 
     SDL_Quit();
   return 0;
+}
+
 }
