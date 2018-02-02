@@ -1,6 +1,12 @@
 
 Projekt: Lightshow
 
+#Hinweise:
+
+- Musik direkt im Program funktioniert zuzreit nur in Linux und die quelle is nur über das Makro in effect.h definierbar.
+- Das Prgramm selbst wurde bis jetzt nur Auf Debian Linux und OSX getestet. Es kann sein das es auf nicht Unix Systemen (z.B Windows) nicht funktioniert
+- Falls jemand es auf Windows testet bitte Feedback geben und/oder selbst so anpassen das es auf allen Systemen funktioniert.
+
 # Spezifikation
 
 Die Idee unseres Projektes ist es ein Programm zu schreiben, welches in der Lage ist in einem Fenster animierte Formen zu zeichnen. Diese Bildinformationen sollen später verwendet werden, um sie über einen Beamer darzustellen und mithilfe einer Nebelmaschine räumliche Effekte ähnlich derer einer professionellen Laser-show zu erzeugen. Dies soll so funktionieren, dass das vom Beamer erzeugte Licht am Nebel gestreut wird, sodass ein Volumetrischer Effekt entsteht. 
