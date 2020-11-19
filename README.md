@@ -1,4 +1,4 @@
-
+Dies war ein Abschlussprojekt für das Modul Prozedurale Programmierung der Technischen Universität Hamburg Harburg und wird nicht weiterverfolgt.
 Projekt: Lightshow
 
 #Hinweise:
